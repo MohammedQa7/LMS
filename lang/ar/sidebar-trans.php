@@ -12,7 +12,7 @@ return [
     
     'Add-new-teacher' => 'اضافة استاذ جديد',
     'Add-new-student' => 'اضافة طالب جديد',
-    'Add-new-level' => 'اضافة مرحلة تعليمة جديد',
+    'Add-new-level' => 'اضافة مرحلة تعليمة جديدة',
     'Add-new-class' => 'اضافة صف جديد',
     'Add-new-section' => 'اضافة قسم صفوف جديد',
     'Add-new-subkect' => 'اضافة مواد تعليمية جديدة',

@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -21,59 +22,54 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 
+
+
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
     ],
     function () {
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/livewire/update', $handle);
+        });
+
         Route::get('/dashboard', function () {
             return view('dashboard-site.dashboard');
         });
-        // Teacher
-        
-        Route::resource('/teacher', TeacherController::class)
-            ->names([
-                'index' => 'teacher-index',
-                'create' => 'teacher-create'
-            ]);
 
+        // Teacher
+        Route::post('/teacher/login', [TeacherController::class, 'login'])
+            ->name('teacher-login');
+        Route::resource('/teacher', TeacherController::class)
+            ->names('teacher');
 
         // Student
+        Route::post('/student/login', [StudentController::class, 'login'])
+            ->name('student-login');
         Route::resource('/student', StudentController::class)
-            ->names([
-                'index' => 'student-index',
-                'create' => 'student-create'
-            ]);
+            ->names('student');
+
+
         //Level
         Route::resource('/level', LevelController::class)
-            ->names([
-                'index' => 'level-index',
-                'create' => 'level-create'
-            ]);
+            ->names('level');
 
         // Classes    
         Route::resource(
-            '/class', ClassController::class
-        )->names([
-                'index' => 'class-index',
-                'create' => 'class-create'
-            ]);
+            '/class',
+            ClassController::class
+        )->names('class');
 
         // Section    
         Route::resource('/section', SectionController::class)
-            ->names([
-                'index' => 'section-index',
-                'create' => 'section-create'
-            ]);
+            ->names('section');
 
         //Subjects    
         Route::resource('/subject', SubjectController::class)
-            ->names([
-                'index' => 'subject-index',
-                'create' => 'subject-create'
-            ]);
+            ->names('subject');
     }
+
 );
 
 

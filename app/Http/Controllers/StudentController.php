@@ -15,4 +15,8 @@ class StudentController extends Controller
     {
         return view('dashboard-site.Student.student-creation');
     }
+
+    function login(){
+        dd('login as user');
+    }
 }

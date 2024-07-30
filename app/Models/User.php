@@ -23,6 +23,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    const STUDENT = 'Studnet';
+    const TEACHER = 'Teacher';
     protected $fillable = [
         'name',
         'email',

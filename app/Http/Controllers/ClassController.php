@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class ClassController extends Controller
@@ -9,6 +11,12 @@ class ClassController extends Controller
     public function index()
     {
         return view('dashboard-site.Class.class-list');
+    }
+
+    public function edit($slug)
+    {
+        $class = Classes::GetClassBySlug($slug)->first();
+        return view('dashboard-site.Class.class-edit')->with('class' ,$class);
     }
 
     public function create()
