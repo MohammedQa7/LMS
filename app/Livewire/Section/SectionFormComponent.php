@@ -4,6 +4,7 @@ namespace App\Livewire\Section;
 
 use App\Models\Level;
 use App\Models\Section;
+use Filament\Notifications\Notification;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -83,9 +84,20 @@ class SectionFormComponent extends Component
                 'level_id' => $this->selected_level
             ]);
             if ($updated_level) {
-
+                Notification::make()
+                ->title('Saved successfully')
+                ->success()
+                ->body('Changes to the Class have been saved.')
+                ->duration(5000)
+                ->send();
             }else{
-                dd('fail to update level');
+                Notification::make()
+                ->title('Something went wrong')
+                ->color('danger')
+                ->danger()
+                ->iconColor('success')
+                ->duration(5000)
+                ->send();
             }
         }
     }

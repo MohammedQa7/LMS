@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Livewire\Class;
+use Livewire\Attributes\Title;
+use Filament\Notifications\Notification;
 use Livewire\WithFileUploads;
 
 use App\Models\Classes;
@@ -90,8 +92,20 @@ class ClassFormComponent extends Component
                 ],
             ]);
             if ($updated_class) {
+                Notification::make()
+                ->title('Saved successfully')
+                ->success()
+                ->body('Changes to the Class have been saved.')
+                ->duration(5000)
+                ->send();
             } else {
-                dd('fail to update class');
+                Notification::make()
+                ->title('Something went wrong')
+                ->color('danger')
+                ->danger()
+                ->iconColor('success')
+                ->duration(5000)
+                ->send();
             }
         }
     }

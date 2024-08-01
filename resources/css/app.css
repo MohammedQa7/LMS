@@ -5,3 +5,13 @@
 [x-cloak] {
     display: none;
 }
+
+
+@layer base {
+    @font-face {
+        font-family: 'PPOHEAVY';
+        font-style: normal;
+        font-display: swap;
+        src: url(../../public/fonts/PPOHeavy.otf) format('otf');
+    }
+}

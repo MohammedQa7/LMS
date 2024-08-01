@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Teacher;
 
-use App\Models\Teacher;
+use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,7 +14,7 @@ class TeacherListComponent extends Component
     #[Computed]
     function Teachers()
     {
-        $teachers = Teacher::with('levels' ,'classes' , 'subjects')->paginate(5);
+        $teachers = User::with('levels' ,'classes' , 'subjects')->paginate(5);
         return $teachers;
     }
     public function render()

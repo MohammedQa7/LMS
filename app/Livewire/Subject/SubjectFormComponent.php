@@ -4,6 +4,7 @@ namespace App\Livewire\Subject;
 
 use App\Models\Level;
 use App\Models\Subject;
+use Filament\Notifications\Notification;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -98,9 +99,21 @@ class SubjectFormComponent extends Component
                         $this->subject->level()->attach($single_level);
                     }
                 }
+                Notification::make()
+                ->title('Saved successfully')
+                ->success()
+                ->body('Changes to the Class have been saved.')
+                ->duration(5000)
+                ->send();
                 $this->reset(['name_ar', 'name_en', 'slug_ar', 'slug_en', 'selected_level']);
             } else {
-                dd('fail to update level');
+                Notification::make()
+                ->title('Something went wrong')
+                ->color('danger')
+                ->danger()
+                ->iconColor('success')
+                ->duration(5000)
+                ->send();
             }
         }
     }

@@ -3,6 +3,13 @@
     <x-dashboard.breadcrump-data></x-dashboard.breadcrump-data> 
     <h2 class="text-4xl font-extrabold dark:text-white mb-4">Levels</h2>
 
-   @livewire('Level.LevelListViewComponent')
+    @role('administrator')
+    
+    @livewire('Level.LevelListViewComponent')
+    @endrole
+    @role('teacher')
+    @livewire('Level.TeacherLevelListComponent')
+    @endrole
+    
 
 </x-app-layout>

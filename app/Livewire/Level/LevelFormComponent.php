@@ -3,6 +3,7 @@
 namespace App\Livewire\Level;
 
 use App\Models\Level;
+use Filament\Notifications\Notification;
 use Livewire\Component;
 
 class LevelFormComponent extends Component
@@ -65,9 +66,21 @@ class LevelFormComponent extends Component
                 ],
             ]);
             if ($updated_level) {
-
+                Notification::make()
+                ->title('Saved successfully')
+                ->success()
+                ->body('Changes to the Class have been saved.')
+                ->duration(5000)
+                ->send();
             }else{
-                dd('fail to update level');
+                Notification::make()
+                ->title('Something went wrong')
+                ->color('danger')
+                ->danger()
+                ->iconColor('success')
+                ->duration(5000)
+                ->send();
+
             }
         }
     }

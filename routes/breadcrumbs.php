@@ -36,7 +36,7 @@ Breadcrumbs::for (
 Breadcrumbs::for (
     'student.create', function (BreadcrumbTrail $trail): void {
         $trail->parent('student.index');
-        $trail->push('Create student', route('student-.reate'));
+        $trail->push('Create student', route('student.create'));
     }
 );
 

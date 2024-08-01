@@ -11,15 +11,15 @@ use Livewire\Livewire;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+ |--------------------------------------------------------------------------
+ | Web Routes
+ |--------------------------------------------------------------------------
+ |
+ | Here is where you can register web routes for your application. These
+ | routes are loaded by the RouteServiceProvider and all of them will
+ | be assigned to the "web" middleware group. Make something great!
+ |
+ */
 
 
 
@@ -30,44 +30,63 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
     ],
     function () {
-        Livewire::setUpdateRoute(function ($handle) {
-            return Route::post('/livewire/update', $handle);
-        });
+        // making livewire to work when using Mcamara translation duo to the extra prefix that mcamara has "/en"
+        Livewire::setUpdateRoute(
+            function ($handle) {
+                return Route::post('/livewire/update', $handle);
+            }
+        );
 
-        Route::get('/dashboard', function () {
-            return view('dashboard-site.dashboard');
-        });
 
-        // Teacher
-        Route::post('/teacher/login', [TeacherController::class, 'login'])
-            ->name('teacher-login');
+
+        // Dashboard Routes
+        Route::get(
+            '/dashboard', function () {
+                return view('dashboard-site.dashboard');
+            }
+        );
+        ;
         Route::resource('/teacher', TeacherController::class)
-            ->names('teacher');
+            ->names(
+                'teacher'
+            );
 
         // Student
         Route::post('/student/login', [StudentController::class, 'login'])
-            ->name('student-login');
+            ->name(
+                'student-login'
+            );
         Route::resource('/student', StudentController::class)
-            ->names('student');
+            ->names(
+                'student'
+            );
 
 
         //Level
         Route::resource('/level', LevelController::class)
-            ->names('level');
+            ->names(
+                'level'
+            )->middleware(['role:teacher|administrator']);
 
         // Classes    
         Route::resource(
             '/class',
             ClassController::class
-        )->names('class');
+        )->names(
+                'class'
+            );
 
         // Section    
         Route::resource('/section', SectionController::class)
-            ->names('section');
+            ->names(
+                'section'
+            );
 
         //Subjects    
         Route::resource('/subject', SubjectController::class)
-            ->names('subject');
+            ->names(
+                'subject'
+            );
     }
 
 );

@@ -14,17 +14,33 @@ class Level extends Model
         'name',
         'slug'
     ];
-    public $translatable = ['name' , 'slug'];
+    public $translatable = ['name', 'slug'];
 
     public function subject()
     {
         return $this->belongsToMany(Subject::class, 'subject_levels');
     }
-
-    public function scopeGetLevelBySlug($query ,$slug)
+    function user()
     {
-        return $query->where('slug->ar' , $slug)
-        ->orWhere('slug->en' , $slug);
+        return $this->belongsToMany(User::class, 'teacher_teaching_subjects', 'level_id', 'user_id');
+    }
+    function classes()
+    {
+        return $this->belongsToMany(Classes::class, 'teacher_teaching_subjects', 'level_id', 'class_id');
+    }
+
+    function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'teacher_teaching_subjects', 'level_id', 'subject_id');
+    }
+
+    public function scopeGetLevelBySlug($query, $slug)
+    {
+        return $query->where('slug->ar', $slug)
+            ->orWhere(
+                'slug->en',
+                $slug
+            );
     }
 
     public static function gettingDataForEdit($class, $field_name, $locale)
