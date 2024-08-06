@@ -20,6 +20,8 @@ class Level extends Model
     {
         return $this->belongsToMany(Subject::class, 'subject_levels');
     }
+
+    
     function user()
     {
         return $this->belongsToMany(User::class, 'teacher_teaching_subjects', 'level_id', 'user_id');

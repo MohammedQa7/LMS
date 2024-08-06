@@ -36,7 +36,6 @@
 
         </div>
         <div class="flex flex-col">
-            <x-livewire-filepond wire:model="featuredImage" />
             <div class="-m-1.5 overflow-x-auto">
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div class="border rounded-lg shadow overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
@@ -76,11 +75,58 @@
                                                 class="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                                                 {{ $single_level->created_at->diffForHumans() }}</td>
 
-                                            <td
+                                            <td x-data="{ modelOpen: false }"
                                                 class="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                                <button class=" text-gray-700 border border-indigo-500 rounded-lg px-4 py-1 hover:bg-indigo-100 transition-all"> 
-                                                    Add Educational Content
+
+                                                <button @click="modelOpen =!modelOpen"
+                                                    class="flex items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                                        viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+
+                                                    <span>Add Educational Content</span>
                                                 </button>
+                                                <x-material-creation-modal :current_level="$single_level">
+                                                </x-material-creation-modal>
+                                            </td>
+
+                                            <td x-data="{ modelOpen: false }"
+                                                class="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+
+                                                <button wire:click="StudnetAttendance({{$single_level->class->id}})" @click="modelOpen =!modelOpen"
+                                                    class="flex items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6 w-5 h-5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                                                    </svg>
+
+
+                                                    <span>Take Attendance</span>
+                                                </button>
+                                                <x-dashboard.attendence-modal
+                                                :attendance_students="$this->attendance_students"></x-dashboard.attendence-modal>
+                                            </td>
+
+
+                                            <td>
+                                                <a href="{{ route('specific-subject-material', ['class_slug' => $single_level->class->slug, 'subject_slug' => $single_level->subject->slug]) }}"
+                                                    class="inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
+                                                    <div class="flex items-center justify-center space-x-2 ">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="size-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        </svg>
+
+                                                        <span>View Educational Content</span>
+                                                    </div>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

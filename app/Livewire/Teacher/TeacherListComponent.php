@@ -14,7 +14,7 @@ class TeacherListComponent extends Component
     #[Computed]
     function Teachers()
     {
-        $teachers = User::with('levels' ,'classes' , 'subjects')->paginate(5);
+        $teachers = User::with('levels' ,'classes' , 'subjects')->role('teacher')->paginate(5);
         return $teachers;
     }
     public function render()

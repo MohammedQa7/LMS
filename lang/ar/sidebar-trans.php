@@ -8,6 +8,7 @@ return [
     'Classes' => 'الصفوف',
     'Subjects' => 'المواد التعليمية',
     'Sections' => 'اقسام الصفوف',
+    'Grades' => 'العلامات',
     
     
     'Add-new-teacher' => 'اضافة استاذ جديد',

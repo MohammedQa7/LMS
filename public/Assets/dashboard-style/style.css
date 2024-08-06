@@ -1,0 +1,11 @@
+
+.filepond--label-action{
+    color: #6875F5 !important;
+}
+
+.filepond--credits{
+    display: none !important;
+}
+.filament-notification {
+    z-index: 1050 !important; /* Adjust the value as needed */
+}

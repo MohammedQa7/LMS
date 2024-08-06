@@ -17,10 +17,17 @@ class Classes extends Model
     public $translatable = ['name', 'slug'];
 
 
+    // Relationships
     function sections()
     {
         return $this->belongsTo(Section::class, 'section_id');
     }
+
+    function classAttend()
+    {
+        return $this->belongsTo(Section::class, 'section_id');
+    }
+    //---------
 
     public function scopeGetClassBySlug($query, $slug)
     {

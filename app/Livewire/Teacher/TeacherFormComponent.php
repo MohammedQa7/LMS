@@ -50,26 +50,6 @@ class TeacherFormComponent extends Component implements HasForms
     public $classes;
     public $subjects;
 
-    public function rules()
-    {
-        return [
-            'selected_courses.*.level' => 'required',
-            'selected_courses.*.class' => 'required',
-            'selected_courses.*.subject' => 'required',
-        ];
-
-    }
-    public function messages()
-    {
-        return [
-            'selected_courses.*.level.required' => trans('custom-validation.custom.selected_courses.level.required'),
-            'selected_courses.*.level.exists' => trans('custom-validation.custom.selected_courses.level.exists'),
-            'selected_courses.*.class.required' => trans('custom-validation.custom.selected_courses.class.required'),
-            'selected_courses.*.class.exists' => trans('custom-validation.custom.selected_courses.class.exists'),
-            'selected_courses.*.subject.required' => trans('custom-validation.custom.selected_courses.subject.required'),
-            'selected_courses.*.subject.exists' => trans('custom-validation.custom.selected_courses.subject.exists'),
-        ];
-    }
 
     public function mount($teacher = null): void
     {
@@ -93,15 +73,37 @@ class TeacherFormComponent extends Component implements HasForms
                 $this->selected_courses[$key]['level'] = $value->level->id;
                 $this->selected_courses[$key]['class'] = $value->class->id;
                 $this->selected_courses[$key]['subject'] = $value->subject->id;
-               
+
 
             }
-
             $this->form->fill($teacher->toArray());
             $this->isEditable = true;
         } else {
             $this->form->fill();
         }
+    }
+
+
+
+    public function rules()
+    {
+        return [
+            'selected_courses.*.level' => 'required',
+            'selected_courses.*.class' => 'required',
+            'selected_courses.*.subject' => 'required',
+        ];
+
+    }
+    public function messages()
+    {
+        return [
+            'selected_courses.*.level.required' => trans('custom-validation.custom.selected_courses.level.required'),
+            'selected_courses.*.level.exists' => trans('custom-validation.custom.selected_courses.level.exists'),
+            'selected_courses.*.class.required' => trans('custom-validation.custom.selected_courses.class.required'),
+            'selected_courses.*.class.exists' => trans('custom-validation.custom.selected_courses.class.exists'),
+            'selected_courses.*.subject.required' => trans('custom-validation.custom.selected_courses.subject.required'),
+            'selected_courses.*.subject.exists' => trans('custom-validation.custom.selected_courses.subject.exists'),
+        ];
     }
 
 

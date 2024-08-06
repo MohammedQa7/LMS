@@ -8,6 +8,7 @@ return [
     'Classes' => 'Classes',
     'Sections' => 'Sections',
     'Subjects' => 'Subjects',
+    'Grades' => 'Grades',
 
     'Add-new-teacher' => 'Add new teacher',
     'Add-new-student' => 'Add new student',

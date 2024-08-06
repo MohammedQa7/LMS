@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Material;
+use App\Models\TeacherTeachingSubject;
+use App\Policies\MaterialPolicy;
+use App\Policies\TeacherLevelAndClasses;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Material::class => MaterialPolicy::class,
+        TeacherTeachingSubject::class => TeacherLevelAndClasses::class,
     ];
 
     /**
@@ -21,6 +26,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
     }
 }

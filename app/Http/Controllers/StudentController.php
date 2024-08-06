@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -15,8 +16,13 @@ class StudentController extends Controller
     {
         return view('dashboard-site.Student.student-creation');
     }
-
-    function login(){
-        dd('login as user');
+    public function edit($email)
+    {
+        $isEditable = true;
+        $student = User::with('studentLevelWithClasses')->where('email', $email)->role('student')->first();
+        return view('dashboard-site.Student.student-creation')->with([
+            'student'=> $student,
+            'isEditable' => $isEditable,
+        ]);
     }
 }

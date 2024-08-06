@@ -5,6 +5,8 @@ namespace App\Livewire\Level;
 use App\Models\Level;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Spatie\LivewireFilepond\WithFilePond;
 
 class LevelListViewComponent extends Component
 {
