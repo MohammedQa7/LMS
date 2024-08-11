@@ -33,7 +33,7 @@ class User extends Authenticatable
     const STUDENT = 'student';
     const TEACHER = 'Teacher';
 
-    
+
     protected $guarded = [
         'id',
         'created_at',
@@ -102,8 +102,28 @@ class User extends Authenticatable
         return $this->hasMany(Attendance::class, 'user_id');
     }
 
+    function chatAsUser()
+    {
+        return $this->hasMany(Chat::class, 'user_id');
+    }
+
+    function chatAsContact()
+    {
+        return $this->hasMany(Chat::class, 'contact_id');
+
+    }
+    function message()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
     //------
 
+    // Scopes
+    function scopeSearch($query , $search_query) {
+        $query->where('name' , 'LIKE' , "%$search_query%")
+        ->orWhere('email' , 'LIKE' , "%$search_query%");
+    }
+    //------
     public static function gettingDataForEdit($class, $field_name, $locale)
     {
         return $class->getTranslations($field_name)[$locale];

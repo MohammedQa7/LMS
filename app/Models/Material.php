@@ -12,7 +12,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Material extends Model
 {
-    use HasFactory, HasTranslations , SoftDeletes;
+    use HasFactory, HasTranslations, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -33,12 +33,13 @@ class Material extends Model
     }
 
 
-    public static function getFileSize($material , $material_file_path)
+    public static function getFileSize($material, $material_file_path)
     {
         return $material->map(function ($material) use ($material_file_path) {
             $material->files->map(function ($single_file) use ($material_file_path) {
                 // Perform some transformation on each $material
                 if (File::exists($material_file_path . $single_file->file)) {
+
                     $single_file->file_size = globalFunctionsHelper::humanReadableFileSize(File::size($material_file_path . $single_file->file));
                     $single_file->original_file_name = basename($single_file->file);
 

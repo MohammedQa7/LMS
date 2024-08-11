@@ -1,3 +1,3 @@
 <div>
-    {{ Breadcrumbs::render()}}
+    {{-- {{ Breadcrumbs::render()}} --}}
 </div>

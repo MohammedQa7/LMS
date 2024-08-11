@@ -96,7 +96,7 @@ class StudentFormComponent extends Component implements HasForms
                     ignorable: $this->student
                 ),
                 TextInput::make('phone_number')->label('Phone Number')->placeholder('+972599123123123')->required()->maxLength(30),
-                TextInput::make('password')->label('Password')->password()->revealable()->placeholder('*******')->required(),
+                TextInput::make('password')->label('Password')->password()->revealable()->placeholder('*******')->requiredIf($this->isEditable, false)->disabled($this->isEditable),
                 DatePicker::make('date_of_birth')->label('Date Of Birth')->native(false)->suffixIcon('heroicon-s-calendar'),
 
                 Select::make('gender.ar')
@@ -161,7 +161,10 @@ class StudentFormComponent extends Component implements HasForms
                 ],
                 'email' => $data['email'],
                 'phone_number' => $data['phone_number'],
-                'password' => Hash::make($data['password']),
+                'password' => isset($data['password'])
+                    ?
+                    Hash::make($data['password'])
+                    : '',
                 'date_of_birth' => $data['date_of_birth'],
                 'gender' => [
                     'ar' => $data['gender']['ar'],
@@ -179,12 +182,20 @@ class StudentFormComponent extends Component implements HasForms
                 'id_number' => null,
             ];
 
+
+            // deletting the password field from the data array if we are editing the user.
+            if ($this->isEditable) {
+                unset($student_data['password']);
+            }
+
             $role = Role::where('name', 'student')->where('guard_name', 'web')->first();
             if (!$role) {
                 $role = Role::create(['name' => 'student']);
             }
 
-            $student = $this->isEditable ? $this->student->update($student_data) : User::create($student_data)->assignRole($role->name);
+            $student = $this->isEditable
+                ? $this->student->update($student_data)
+                : User::create($student_data)->assignRole($role->name);
 
             if (is_bool($student) && $this->isEditable) {
                 $student_class = StudentClass::where('user_id', $this->student->id)->first();

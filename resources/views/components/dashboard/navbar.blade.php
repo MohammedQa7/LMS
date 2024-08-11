@@ -44,6 +44,27 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
+
+                    {{-- Chat icon --}}
+
+                    <a href="{{ route('chat.index') }}"
+                        class="relative p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 cursor-pointer">
+                        <span class="sr-only">View notifications</span>
+                        <!-- Bell icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                            class="size-6 w-6 h-6 -rotate-45">
+                            <path d=" M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432
+                        7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0
+                        0 0 3.478 2.404Z" />
+                        </svg>
+
+                        <div id="notification_counter"
+                            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                            {{ Auth::user()->notifications->count() }}</div>
+
+                    </a>
+
+
                     <!-- Notifications -->
                     <button type="button" data-dropdown-toggle="notification-dropdown"
                         class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
@@ -55,6 +76,7 @@
                             </path>
                         </svg>
                     </button>
+
                     <!-- Dropdown menu -->
                     <div class="z-20 z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700"
                         id="notification-dropdown">
@@ -342,10 +364,10 @@
                                 {{-- <a href="{{Route('register')}}" 
                                     class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Create
                                     Account</a> --}}
-                                <a <a href="{{Route('login')}}" "
-                                    class="text-gray-900 bg-indigo-200  hover:bg-gray-100  font-medium rounded-lg text-sm px-5 py-2.5 me-2  dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Login</a>
-                            </div>
-                        </div>
+                                <a <a href="{{ Route('login') }}" "
+                                                                                class="text-gray-900 bg-indigo-200  hover:bg-gray-100  font-medium rounded-lg text-sm px-5 py-2.5 me-2  dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Login</a>
+                                                                        </div>
+                                                                    </div>
                     @endguest
                 </div>
             </div>

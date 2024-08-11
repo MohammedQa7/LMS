@@ -38,6 +38,7 @@ class MaterialListComponent extends Component
     public function mount($class_slug, $subject_slug)
     {
         $this->material_file_path = public_path() . '/storage/';
+        // dd($this->material_file_path);
         $this->class = Classes::getClassBySlug($class_slug)->first();
         $this->subejct = Subject::getSubjectBySlug($subject_slug)->first();
 
@@ -75,7 +76,6 @@ class MaterialListComponent extends Component
 
             // getting the file size for each file
             Material::getFileSize($material, $this->material_file_path);
-
             if ($material) {
                 // init the file status for checkbox field
                 foreach ($material as $single_material) {
@@ -83,6 +83,7 @@ class MaterialListComponent extends Component
                         $this->status[$single_file->id] = $single_file->status;
                     }
                 }
+                
                 return $material;
             }
         }

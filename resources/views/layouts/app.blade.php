@@ -29,16 +29,24 @@
 
 
 <body>
-    <div class="p-4 sm:ml-64 rtl:sm:mr-64 rtl:sm:ml-0">
-        <x-dashboard.navbar></x-dashboard.navbar>
-        <x-dashboard.Sidebar></x-dashboard.Sidebar>
-
-        <div class="mt-8">
+    @if (\Route::current()->getName() == 'chat.index')
+        <div class="chat-container">
+            {{-- Chat WEBPAGE --}}
             @livewire('notifications')
             {{ $slot }}
         </div>
+    @else
+        <div class="p-4 sm:ml-64 rtl:sm:mr-64 rtl:sm:ml-0">
+            <x-dashboard.navbar></x-dashboard.navbar>
+            <x-dashboard.Sidebar></x-dashboard.Sidebar>
 
-    </div>
+            <div class="mt-8">
+                @livewire('notifications')
+                {{ $slot }}
+            </div>
+
+        </div>
+    @endif
     @filepondScripts
     @livewireScripts
     @filamentScripts
@@ -50,6 +58,28 @@
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
     @stack('script')
+    @stack('live-chat-script')
+
+
+    <script type="module">
+        // real-time notificaion counter
+        Echo.private("liveNotification.{{ Auth::user()->id }}")
+            .listen('liveNotifications', (event) => {
+                var result = Object.keys(event).map((key) => [key, event[key]]);
+
+                // Livewire.dispatch('highlighted_message', result[1][1].chat_id);
+                Livewire.dispatch("hightlight", {
+                    "id": event.chat.chat_id
+                });
+
+                var counter = document.getElementById('notification_counter');
+                if (counter) {
+                    // converting the text into an int so we can increment the notification by one
+                    let counter_number = parseInt(counter.innerText);
+                    counter.innerText = counter_number + 1;
+                }
+            });
+    </script>
 </body>
 
 </html>

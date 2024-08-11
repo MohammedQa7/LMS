@@ -96,7 +96,8 @@
                                             <td x-data="{ modelOpen: false }"
                                                 class="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
 
-                                                <button wire:click="StudnetAttendance({{$single_level->class->id}})" @click="modelOpen =!modelOpen"
+                                                <button wire:click="StudnetAttendance({{ $single_level->class->id }})"
+                                                    @click="modelOpen =!modelOpen"
                                                     class="flex items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -109,7 +110,7 @@
                                                     <span>Take Attendance</span>
                                                 </button>
                                                 <x-dashboard.attendence-modal
-                                                :attendance_students="$this->attendance_students"></x-dashboard.attendence-modal>
+                                                    :attendance_students="$this->attendance_students"></x-dashboard.attendence-modal>
                                             </td>
 
 
@@ -128,6 +129,67 @@
                                                     </div>
                                                 </a>
                                             </td>
+
+                                            <td>
+
+
+                                                <button id="dropdownLeftButton-{{ $single_level->id }}"
+                                                    data-dropdown-toggle="dropdownLeft-{{ $single_level->id }}"
+                                                    data-dropdown-placement="left"
+                                                    class="mb-3 md:mb-0 text-white border border-indigo-500 shadow-md  bg-white hover:bg-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                                    type="button"><svg class="w-2.5 h-2.5 text-black"
+                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 6 10">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                                    </svg></button>
+
+                                                <!-- Dropdown menu -->
+                                                <div id="dropdownLeft-{{ $single_level->id }}"
+                                                    class="z-10 hidden bg-white  divide-y divide-gray-100 rounded-lg border border-gray-200 shadow-2xl w-56 p-5 dark:bg-gray-700">
+                                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                        aria-labelledby="dropdownLeftButton-{{ $single_level->id }}">
+                                                        <li class="mb-4">
+                                                            <a href="{{ route('specific-subject-material', ['class_slug' => $single_level->class->slug, 'subject_slug' => $single_level->subject->slug]) }}"
+                                                                class="inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
+                                                                <div
+                                                                    class="flex items-center justify-center space-x-2 ">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none" viewBox="0 0 24 24"
+                                                                        stroke-width="1.5" stroke="currentColor"
+                                                                        class="size-6">
+                                                                        <path stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                    </svg>
+
+                                                                    <span>View Educational Content</span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('specific-subject-material', ['class_slug' => $single_level->class->slug, 'subject_slug' => $single_level->subject->slug]) }}"
+                                                                class="inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
+                                                                <div
+                                                                    class="flex items-center justify-center space-x-2 ">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none" viewBox="0 0 24 24"
+                                                                        stroke-width="1.5" stroke="currentColor"
+                                                                        class="size-6">
+                                                                        <path stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                    </svg>
+
+                                                                    <span>View Educational Content</span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </td>
+
                                         </tr>
                                     @endforeach
                                 @else
@@ -140,9 +202,10 @@
 
                             </tbody>
                         </table>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

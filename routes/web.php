@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentPortal\StudentPortalController;
@@ -36,9 +39,7 @@ Route::group(
         });
 
         // Dashboard Routes
-        Route::get('/', function () {
-            return view('dashboard-site.dashboard');
-        })->name('dashboard');
+        Route::get('/', [dashboardController::class, 'index'])->name('dashboard');
 
 
         Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -66,6 +67,8 @@ Route::group(
 
             //Subjects
             Route::resource('/subject', SubjectController::class)->names('subject');
+
+            Route::get('/quiz/{class_id}/create', [QuizController::class , 'create'])->name('quiz');
         });
 
         // View Materials and Download them should be acceable to all user types.
@@ -73,12 +76,16 @@ Route::group(
             // show materials that belongs to a subject / class
             Route::get('/material/{class_slug}/{subject_slug}/view', [MaterialController::class, 'showSpecificMaterial'])->name('specific-subject-material');
             Route::get('/material/{file_id?}/{file_name?}/download', [MaterialController::class, 'download'])->name('download_file');
+
+            // chat routes
+            Route::resource('/chat', ChatController::class)->names('chat');
+
         });
 
         // if route not found redirect to the homepage / main page
-        // Route::fallback(function () {
-        //     return redirect('/');
-        // });
+        Route::fallback(function () {
+            return redirect('/');
+        });
     },
 );
 
