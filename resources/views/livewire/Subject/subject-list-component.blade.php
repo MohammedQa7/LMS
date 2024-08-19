@@ -89,7 +89,7 @@
                                     <tr>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                            No Levels Were Found</td>
+                                            No Subjects Were Found</td>
                                     </tr>
 
                                 @endif

@@ -14,6 +14,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -33,6 +34,7 @@ class QuizFormComponent extends Component implements HasForms
 
     // quiz will be associated with the provided class
     public $class_id;
+    public $subject_id;
     public function mount(): void
     {
         $this->form->fill();
@@ -42,52 +44,6 @@ class QuizFormComponent extends Component implements HasForms
     {
         return $form
             ->schema([
-
-                // Grid::make(3)
-                //     ->schema([
-                //         // left side
-                //         Fieldset::make('Quiz general information')
-                //             ->schema([
-                //                 TextInput::make('title.ar')
-                //                     ->label('Title (Arabic)'),
-                //                 TextInput::make('title.en')
-                //                     ->label('Title (English)'),
-
-                //                 TextInput::make('description.ar')
-                //                     ->label('Description (Arabic)'),
-                //                 TextInput::make('description.en')
-                //                     ->label('Description (English)'),
-                //             ])->columnSpan(2),
-
-
-                //         // right side 
-                //         Fieldset::make('Time & Attempts')
-                //             ->schema([
-                //                 TextInput::make('attempts')
-                //                     ->label('Attempts')
-                //                     ->numeric()
-                //                     ->minValue(1)
-                //                     ->required(),
-                //                 TextInput::make('time_limit')
-                //                     ->label('Time Limit')
-                //                     ->hint('MINUTES'),
-
-                //                 Fieldset::make('Start & End Time')
-                //                     ->schema([
-                //                         DateTimePicker::make('start_date')
-                //                             ->label('Start Date')
-                //                             ->required()
-                //                             ->native(false),
-                //                         DateTimePicker::make('end_data')
-                //                             ->label('End Date')
-                //                             ->required()
-                //                             ->native(false),
-                //                     ])->columns(1)->columnSpan(1),
-                //             ])->columns(1)->columnSpan(1),
-
-
-
-                //     ]),
 
                 Section::make()->schema([
                     // left side
@@ -146,9 +102,9 @@ class QuizFormComponent extends Component implements HasForms
                             ->numeric()
                             ->minValue(1)
                             ->required(),
-                        TextInput::make('time_limit')
+                        TimePicker::make('time_limit')
                             ->label('Time Limit')
-                            ->hint('MINUTES')
+                            ->native(false)
                             ->required(),
 
                         TextInput::make('total_score')
@@ -156,18 +112,14 @@ class QuizFormComponent extends Component implements HasForms
                             ->numeric()
                             ->minValue(1)
                             ->required(),
-
-                        Fieldset::make('Start & End Time')
-                            ->schema([
-                                DateTimePicker::make('start_date')
-                                    ->label('Start Date')
-                                    ->required()
-                                    ->native(false),
-                                DateTimePicker::make('end_date')
-                                    ->label('End Date')
-                                    ->required()
-                                    ->native(false),
-                            ])->columns(1)->columnSpan(1),
+                        DateTimePicker::make('start_date')
+                            ->label('Start Date')
+                            ->required()
+                            ->native(false),
+                        DateTimePicker::make('end_date')
+                            ->label('End Date')
+                            ->required()
+                            ->native(false),
                     ])->columns(1)->columnSpan(1),
 
             ])->columns(3)
@@ -188,6 +140,8 @@ class QuizFormComponent extends Component implements HasForms
                 'ar' => $data['description']['ar'],
                 'en' => $data['description']['en'],
             ],
+            'class_id' => $this->class_id,
+            'subject_id' => $this->subject_id,
             'attempts' => $data['attempts'],
             'time_limit' => $data['time_limit'],
             'total_score' => $data['total_score'],
@@ -203,7 +157,6 @@ class QuizFormComponent extends Component implements HasForms
                 foreach ($data['question'] as $single_question) {
                     $question = Question::create([
                         'quiz_id' => $quiz->id,
-                        'class_id' => $this->class_id,
                         'question_text' => $single_question['question_text'],
                         'score' => $single_question['question_score'],
                     ]);

@@ -7,7 +7,7 @@
                     @foreach ($this->LevelTabs as $single_level)
                         <button wire:click.prevent="SelectTab('{{ $single_level->id }}')"
                             class="{{ $single_level->id == $this->selected_tab ? 'bg-white ' : 'hover:bg-indigo-100' }} text-gray-700  dark:bg-neutral-800 dark:text-neutral-400 py-3 px-4 inline-flex items-center gap-x-2  text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 font-medium rounded-lg  disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:text-white dark:focus:text-white "
-                            id="segment-item-{{ $loop->index }}" role="tab">
+                            role="tab">
                             {{ $single_level->name }}
                         </button>
                     @endforeach
@@ -18,7 +18,11 @@
         </div>
     </div>
 
+
+
     <div class="relative sm:rounded-lg pt-5">
+
+
         <div class=" mb-4 bg-white dark:bg-gray-900 flex justify-between items-center">
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative mt-1">
@@ -38,7 +42,7 @@
         <div class="flex flex-col">
             <div class="-m-1.5 overflow-x-auto">
                 <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div class="border rounded-lg shadow overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
+                    <div class="border rounded-lg shadow overflow-visible dark:border-neutral-700 dark:shadow-gray-900">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                             <thead class="bg-gray-50 dark:bg-neutral-700">
                                 <tr>
@@ -64,7 +68,8 @@
                             <tbody class="divide-y  divide-gray-200 dark:divide-neutral-700">
                                 @if (sizeof($this->TeacherLevels) > 0)
                                     @foreach ($this->TeacherLevels as $single_level)
-                                        <tr class="hover:bg-gray-100">
+                                        <tr class="hover:bg-gray-100 overflow-visible"
+                                            wire:key="unique-key-{{ $single_level->id }}">
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                                                 {{ $single_level->class->name }}</td>
@@ -93,6 +98,7 @@
                                                 </x-material-creation-modal>
                                             </td>
 
+
                                             <td x-data="{ modelOpen: false }"
                                                 class="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
 
@@ -113,27 +119,73 @@
                                                     :attendance_students="$this->attendance_students"></x-dashboard.attendence-modal>
                                             </td>
 
-
                                             <td>
-                                                <a href="{{ route('specific-subject-material', ['class_slug' => $single_level->class->slug, 'subject_slug' => $single_level->subject->slug]) }}"
-                                                    class="inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
-                                                    <div class="flex items-center justify-center space-x-2 ">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
+                                                <div x-data="{ isOpen: false, openedWithKeyboard: false }"
+                                                    @keydown.esc.window="isOpen = false, openedWithKeyboard = false"
+                                                    <!-- Toggle Button -->
+                                                    <button type="button" @click="isOpen = ! isOpen"
+                                                        @keydown.space.prevent="openedWithKeyboard = true"
+                                                        @keydown.enter.prevent="openedWithKeyboard = true"
+                                                        @keydown.down.prevent="openedWithKeyboard = true"
+                                                        class="inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-xl border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:focus-visible:outline-slate-300"
+                                                        :class="isOpen || openedWithKeyboard ? 'text-black dark:text-white' :
+                                                            'text-slate-700 dark:text-slate-300'"
+                                                        :aria-expanded="isOpen || openedWithKeyboard"
+                                                        aria-haspopup="true">
+                                                        More
+                                                        <svg aria-hidden="true" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            stroke-width="2" stroke="currentColor"
+                                                            class="h-4 w-4 rotate-0">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                                                         </svg>
+                                                    </button>
+                                                    <!-- Dropdown Menu -->
+                                                    <div x-cloak x-show="isOpen || openedWithKeyboard" x-transition
+                                                        x-trap="openedWithKeyboard"
+                                                        @click.outside="isOpen = false, openedWithKeyboard = false"
+                                                        @keydown.down.prevent="$focus.wrap().next()"
+                                                        @keydown.up.prevent="$focus.wrap().previous()"
+                                                        style="display:none;"
+                                                        class="absolute z-50 right-0 mt-2 flex min-w-[12rem] flex-col divide-y divide-slate-300 overflow-hidden rounded-xl border border-slate-300 bg-slate-100 dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800"
+                                                        role="menu">
+                                                        <!-- Dropdown Section -->
+                                                        <div class="flex flex-col py-1.5">
+                                                            <a href="{{ route('specific-subject-material', ['class_slug' => $single_level->class->slug, 'subject_slug' => $single_level->subject->slug]) }}"
+                                                                class="flex items-center gap-2 bg-slate-100 px-4 py-2 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                                                                role="menuitem">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="size-6">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                </svg>
 
-                                                        <span>View Educational Content</span>
+                                                                <span>Educational Content</span>
+                                                            </a>
+
+                                                            <a href="{{ route('create-quiz', ['class_id' => $single_level->class->id, 'subject_id' => $single_level->subject->id]) }}"
+                                                                class="flex items-center gap-2 bg-slate-100 px-4 py-2 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                                                                role="menuitem">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="size-6">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                <span>Create New Quiz</span>
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </a>
+                                                </div>
                                             </td>
 
-                                            <td>
-
-
-                                                <button id="dropdownLeftButton-{{ $single_level->id }}"
+                                            {{-- <td x-data="{ openDropDown: null }">
+                                                <button
+                                                    x-on:click="openDropDown = openDropDown === {{ $single_level->id }} ? null : {{ $single_level->id }}"
                                                     data-dropdown-toggle="dropdownLeft-{{ $single_level->id }}"
                                                     data-dropdown-placement="left"
                                                     class="mb-3 md:mb-0 text-white border border-indigo-500 shadow-md  bg-white hover:bg-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -141,17 +193,21 @@
                                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                                         fill="none" viewBox="0 0 6 10">
                                                         <path stroke="currentColor" stroke-linecap="round"
-                                                            stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="M5 1 1 5l4 4" />
                                                     </svg></button>
 
                                                 <!-- Dropdown menu -->
-                                                <div id="dropdownLeft-{{ $single_level->id }}"
-                                                    class="z-10 hidden bg-white  divide-y divide-gray-100 rounded-lg border border-gray-200 shadow-2xl w-56 p-5 dark:bg-gray-700">
-                                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                <div x-show="openDropDown === {{ $single_level->id }}"
+                                                    style="display:none;"
+                                                    class="absolute z-50 right-20 top-20 bg-white  divide-y divide-gray-100 rounded-lg border border-gray-200 shadow-2xl w-56 p-5 dark:bg-gray-700">
+
+                                                    <ul @click.away="openDropDown = null"
+                                                        class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownLeftButton-{{ $single_level->id }}">
-                                                        <li class="mb-4">
+                                                        <li class="mb-5">
                                                             <a href="{{ route('specific-subject-material', ['class_slug' => $single_level->class->slug, 'subject_slug' => $single_level->subject->slug]) }}"
-                                                                class="inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
+                                                                class="w-full inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
                                                                 <div
                                                                     class="flex items-center justify-center space-x-2 ">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -167,9 +223,10 @@
                                                                 </div>
                                                             </a>
                                                         </li>
+
                                                         <li>
-                                                            <a href="{{ route('specific-subject-material', ['class_slug' => $single_level->class->slug, 'subject_slug' => $single_level->subject->slug]) }}"
-                                                                class="inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
+                                                            <a href="{{ route('create-quiz', ['class_id' => $single_level->class->id, 'subject_id' => $single_level->subject->id]) }}"
+                                                                class=" w-full inline-block items-center justify-center px-3 py-2 space-x-2 text-sm tracking-wide text-gray-700 capitalize transition-colors duration-200 transform border border-indigo-500 rounded-md dark:bg-white dark:hover:bg-indigo-700  hover:bg-indigo-200 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50 cursor-pointer">
                                                                 <div
                                                                     class="flex items-center justify-center space-x-2 ">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -178,17 +235,15 @@
                                                                         class="size-6">
                                                                         <path stroke-linecap="round"
                                                                             stroke-linejoin="round"
-                                                                            d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                                     </svg>
-
-                                                                    <span>View Educational Content</span>
+                                                                    <span>Create New Quiz</span>
                                                                 </div>
                                                             </a>
                                                         </li>
                                                     </ul>
                                                 </div>
-
-                                            </td>
+                                            </td> --}}
 
                                         </tr>
                                     @endforeach
@@ -209,3 +264,4 @@
             </div>
         </div>
     </div>
+</div>

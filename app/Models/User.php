@@ -77,6 +77,7 @@ class User extends Authenticatable
 
 
     // Relationships
+    // Teacher Relationships
     function levels()
     {
         return $this->belongsToMany(Level::class, 'teacher_teaching_subjects', 'user_id', 'level_id');
@@ -91,7 +92,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class, 'teacher_teaching_subjects', 'user_id', 'subject_id');
     }
+    // ------
 
+    // Students Relationships
     function studentLevelWithClasses()
     {
         return $this->hasOne(StudentClass::class, 'user_id');
@@ -116,6 +119,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class, 'sender_id');
     }
+    // -------
+
     //------
 
     // Scopes

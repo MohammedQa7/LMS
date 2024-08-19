@@ -180,11 +180,13 @@ class TeacherFormComponent extends Component implements HasForms
                                 })->pluck('name', 'id'),
                             )
                             ->required(),
+                            
                     ])
                     ->columns(3)
                     ->columnSpanFull()
                     ->defaultItems(3),
             ])
+            
             ->columns(2)
             ->statePath('data');
     }

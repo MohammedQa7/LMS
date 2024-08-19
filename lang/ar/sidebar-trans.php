@@ -9,6 +9,7 @@ return [
     'Subjects' => 'المواد التعليمية',
     'Sections' => 'اقسام الصفوف',
     'Grades' => 'العلامات',
+    'Zoom-Meetings' => 'اجتماعات الزووم',
     
     
     'Add-new-teacher' => 'اضافة استاذ جديد',
@@ -24,4 +25,6 @@ return [
     'List-of-all-classes' => 'جميع الصفوف',
     'List-of-all-sections' => 'جميع اقسام الصفوف',
     'List-of-all-subjects' => 'جميع المواد التعليمية',
+    
+    
 ];

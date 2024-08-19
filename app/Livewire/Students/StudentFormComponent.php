@@ -6,14 +6,16 @@ use App\Models\Classes;
 
 
 use App\Models\Level;
+use App\Models\Section;
 use App\Models\StudentClass;
 use App\Models\TeacherTeachingSubject;
 use App\Models\User;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -41,6 +43,7 @@ class StudentFormComponent extends Component implements HasForms
     // reciveing all of the levels classes and subjects so we can show all of them is a selection option.
     public $levels;
     public $classes;
+    public $sections;
 
     // new selected data will be binded to these variables
     #[Validate('required|exists:levels,id')]
@@ -48,6 +51,9 @@ class StudentFormComponent extends Component implements HasForms
 
     #[Validate('required|exists:classes,id')]
     public $selected_class;
+
+    #[Validate('required|exists:sections,id')]
+    public $selected_section;
 
 
     public function mount($student = null): void
@@ -57,10 +63,13 @@ class StudentFormComponent extends Component implements HasForms
             // Fill the form fields with existing data
             $this->levels = Level::get();
             $this->classes = Classes::with('sections')->get();
+            $this->sections = Section::with('level')->get();
 
             // fetching the existing and previous courses
-            $this->selected_level = $student->studentLevelWithClasses->level->id;
-            $this->selected_class = $student->studentLevelWithClasses->class->id;
+            $this->selected_level = $student->studentLevelWithClasses->level_id;
+            $this->selected_class = $student->studentLevelWithClasses->class_id;
+            $this->selected_section = $student->studentLevelWithClasses->section_id;
+
 
             // fetching all the data to filament form
             $this->form->fill($student->toArray());
@@ -118,21 +127,35 @@ class StudentFormComponent extends Component implements HasForms
                 TextInput::make('address.ar')->label('Address (Arabic)')->placeholder('غزة'),
                 TextInput::make('address.en')->label('Address (English)')->placeholder('Gaza'),
 
-                Select::make('level_id')
-                    ->label('Associated Level')
-                    ->options(Level::get()
-                        ->pluck('name', 'id'))
-                    ->live()
-                    ->required()
-                    ->visible(!$this->isEditable),
-                Select::make('class_id')
-                    ->label('Associated Class')
-                    ->options(
-                        fn(Get $get): \Illuminate\Support\Collection => Classes::whereHas('sections', function ($query) use ($get) {
-                            $query->where('level_id', $get('level_id'));
-                        })->pluck('name', 'id'),
-                    )
-                    ->required()->visible(!$this->isEditable),
+                \Filament\Forms\Components\Section::make()
+                    ->schema([
+                        Select::make('level_id')
+                            ->label('Associated Level')
+                            ->options(Level::get()
+                                ->pluck('name', 'id'))
+                            ->live()
+                            ->required()
+                            ->visible(!$this->isEditable),
+                        Select::make('section_id')
+                            ->label('Associated Section')
+                            ->required()
+                            ->visible(!$this->isEditable)
+                            ->options(
+                                fn(Get $get): \Illuminate\Support\Collection => Section::whereHas('level', function ($query) use ($get) {
+                                    $query->where('level_id', $get('level_id'));
+                                })->pluck('name', 'id')
+                            ),
+                        Select::make('class_id')
+                            ->label('Associated Class')
+                            ->options(
+                                fn(Get $get): \Illuminate\Support\Collection => Classes::whereHas('sections', function ($query) use ($get) {
+                                    $query->where('level_id', $get('level_id'));
+                                })->pluck('name', 'id'),
+                            )
+                            ->required()->visible(!$this->isEditable),
+                    ])->columns(3)->visible(!$this->isEditable),
+
+
                 FileUpload::make('profile_photo_path')
                     ->disk('public')
                     ->directory('user/avatar')
@@ -162,9 +185,9 @@ class StudentFormComponent extends Component implements HasForms
                 'email' => $data['email'],
                 'phone_number' => $data['phone_number'],
                 'password' => isset($data['password'])
-                    ?
-                    Hash::make($data['password'])
-                    : '',
+                ?
+                Hash::make($data['password'])
+                : '',
                 'date_of_birth' => $data['date_of_birth'],
                 'gender' => [
                     'ar' => $data['gender']['ar'],
@@ -203,6 +226,7 @@ class StudentFormComponent extends Component implements HasForms
                     $student_class->update([
                         'level_id' => $this->selected_level,
                         'class_id' => $this->selected_class,
+                        'section_id' => $this->selected_section,
                     ]);
                 }
             } else {
@@ -210,6 +234,7 @@ class StudentFormComponent extends Component implements HasForms
                     'user_id' => is_bool($student) ? $this->student->id : $student->id,
                     'level_id' => $data['level_id'],
                     'class_id' => $data['class_id'],
+                    'section_id' => $data['section_id'],
                 ]);
 
             }

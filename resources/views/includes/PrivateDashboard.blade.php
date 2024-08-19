@@ -60,13 +60,12 @@
                 aria-controls="student-dropdown" data-collapse-toggle="student-dropdown">
                 <svg class="flex-shrink-0 w-6 h-6  text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                     version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve"
-                    fill="#000000">
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
-                        <line style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;"
-                            x1="3" y1="13" x2="3" y2="24"></line>
+                        <line style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;" x1="3"
+                            y1="13" x2="3" y2="24"></line>
                         <circle cx="3" cy="24" r="2"></circle>
                         <polygon style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;"
                             points="16,8.833 3.5,13 16,17.167 28.5,13 "></polygon>
@@ -112,8 +111,8 @@
                     class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{ trans('sidebar-trans.Levels') }}</span>
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" d="m1 1 4 4 4-4" />
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4" />
                 </svg>
             </button>
             <ul id="level-dropdown" class="hidden py-2 space-y-2">
@@ -135,10 +134,9 @@
             <button type="button"
                 class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 aria-controls="class-dropdown" data-collapse-toggle="class-dropdown">
-                <svg class="w-6 h-6" fill="#000000" height="200px" width="200px" version="1.1"
-                    id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 299.674 299.674"
-                    xml:space="preserve">
+                <svg class="w-6 h-6" fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 299.674 299.674" xml:space="preserve">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
@@ -160,8 +158,8 @@
                     class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{ trans('sidebar-trans.Classes') }}</span>
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" d="m1 1 4 4 4-4" />
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4" />
                 </svg>
             </button>
             <ul id="class-dropdown" class="hidden py-2 space-y-2">
@@ -194,8 +192,8 @@
                     class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{ trans('sidebar-trans.Sections') }}</span>
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" d="m1 1 4 4 4-4" />
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4" />
                 </svg>
             </button>
             <ul id="section-dropdown" class="hidden py-2 space-y-2">
@@ -211,10 +209,9 @@
             <button type="button"
                 class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 aria-controls="subject-dropdown" data-collapse-toggle="subject-dropdown">
-                <svg class="w-6 h-6" fill="#000000" height="200px" width="200px" version="1.1"
-                    id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 298.489 298.489"
-                    xml:space="preserve">
+                <svg class="w-6 h-6" fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 298.489 298.489" xml:space="preserve">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
@@ -239,8 +236,8 @@
                     class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{ trans('sidebar-trans.Subjects') }}</span>
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" d="m1 1 4 4 4-4" />
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4" />
                 </svg>
             </button>
             <ul id="subject-dropdown" class="hidden py-2 space-y-2">
@@ -253,19 +250,40 @@
 
 
         <li>
-            <a href="#"
+            <a href="{{ URL('/zoom/meetings') }}"
                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path
-                        d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
+                <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M2 11.6C2 8.23969 2 6.55953 2.65396 5.27606C3.2292 4.14708 4.14708 3.2292 5.27606 2.65396C6.55953 2 8.23969 2 11.6 2H20.4C23.7603 2 25.4405 2 26.7239 2.65396C27.8529 3.2292 28.7708 4.14708 29.346 5.27606C30 6.55953 30 8.23969 30 11.6V20.4C30 23.7603 30 25.4405 29.346 26.7239C28.7708 27.8529 27.8529 28.7708 26.7239 29.346C25.4405 30 23.7603 30 20.4 30H11.6C8.23969 30 6.55953 30 5.27606 29.346C4.14708 28.7708 3.2292 27.8529 2.65396 26.7239C2 25.4405 2 23.7603 2 20.4V11.6Z"
+                            fill="#4087FC"></path>
+                        <path
+                            d="M8.26667 10C7.56711 10 7 10.6396 7 11.4286V18.3571C7 20.369 8.44612 22 10.23 22L17.7333 21.9286C18.4329 21.9286 19 21.289 19 20.5V13.5C19 11.4881 17.2839 10 15.5 10L8.26667 10Z"
+                            fill="white"></path>
+                        <path
+                            d="M20.7122 12.7276C20.2596 13.1752 20 13.8211 20 14.5V17.3993C20 18.0782 20.2596 18.7242 20.7122 19.1717L23.5288 21.6525C24.1019 22.2191 25 21.7601 25 20.9005V11.1352C25 10.2755 24.1019 9.81654 23.5288 10.3832L20.7122 12.7276Z"
+                            fill="white"></path>
+                    </g>
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-                <span
-                    class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
+                <span class="ms-3"> {{ trans('sidebar-trans.Zoom-Meetings') }}</span>
             </a>
         </li>
+
+        <li>
+            <a href="{{ URL('/promotion/student') }}"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6 w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                </svg>
+
+                <span class="ms-3"> {{ trans('subject-content-modal.promotion') }}</span>
+            </a>
+        </li>
+
 
     </ul>
 </div>

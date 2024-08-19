@@ -9,6 +9,7 @@ return [
     'Sections' => 'Sections',
     'Subjects' => 'Subjects',
     'Grades' => 'Grades',
+    'Zoom-Meetings' => 'Zoom Meetings',
 
     'Add-new-teacher' => 'Add new teacher',
     'Add-new-student' => 'Add new student',

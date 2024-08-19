@@ -30,7 +30,7 @@ class Chat extends Model
 
     function message()
     {
-        return $this->hasMany(Message::class , 'chat_id');
+        return $this->hasMany(Message::class, 'chat_id');
     }
     //----------
 
@@ -42,21 +42,29 @@ class Chat extends Model
 
     }
 
-    function scopeSearch($query ,$search_contact_query) {
-        return $query->whereHas('contact' ,function($query) use($search_contact_query){
-            $query->where('name' , 'LIKE' , "%$search_contact_query%")
-            ->orWhere('email' , 'LIKE' , "%$search_contact_query%");
+    function scopeSearch($query, $search_contact_query)
+    {
+        return $query->whereHas('contact', function ($query) use ($search_contact_query) {
+            $query->where('name', 'LIKE', "%$search_contact_query%")
+                ->orWhere('email', 'LIKE', "%$search_contact_query%");
         });
     }
 
-    function scopeWhoIsTheContactedUser(){
-        
+    function scopeWhoIsTheContactedUser()
+    {
+
     }
 
     function scopeIsTherePreviousChat($query, $user_id)
     {
+        // making there is no existing chat between the two users
         if ($user_id) {
-            return $query->where('contact_id', $user_id)->exists();
+            return $query
+                ->where('user_id', Auth::user()->id)->where('contact_id', $user_id)
+                ->orWhere(function ($query) use ($user_id) {
+                    $query->where('contact_id', Auth::user()->id)
+                        ->where('user_id', $user_id);
+                })->exists();
         }
     }
     //-------

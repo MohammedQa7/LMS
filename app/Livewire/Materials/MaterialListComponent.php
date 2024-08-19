@@ -8,6 +8,10 @@ use App\Models\Level;
 use App\Models\Material;
 use App\Models\Subject;
 use App\Models\TeacherTeachingSubject;
+use App\Services\MaterialsService;
+use App\Services\QuizzService;
+use App\Services\ZoomMeetingService;
+use App\Traits\NotificationTrait;
 use Filament\Notifications\Notification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +22,7 @@ use Livewire\Component;
 class MaterialListComponent extends Component
 {
     use AuthorizesRequests;
+    use NotificationTrait;
     public $material_file_path;
 
 
@@ -35,10 +40,19 @@ class MaterialListComponent extends Component
     // when the teacher  want to restore some of the files this variable will containe all the deleted files for a specific material
     //of course this will happen by calling deletedFiles() function.
     public $deleted_files;
-    public function mount($class_slug, $subject_slug)
+
+    protected QuizzService $quizzService;
+    protected ZoomMeetingService $zoomService;
+    protected MaterialsService $materialsService;
+
+    public function mount($class_slug, $subject_slug, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService, MaterialsService $materialsService)
     {
+        // $this->quizzService = new QuizzService();
+        $this->quizzService = $quizzService;
+        $this->zoomService = $zoomMeetingService;
+        $this->materialsService = $materialsService;
+
         $this->material_file_path = public_path() . '/storage/';
-        // dd($this->material_file_path);
         $this->class = Classes::getClassBySlug($class_slug)->first();
         $this->subejct = Subject::getSubjectBySlug($subject_slug)->first();
 
@@ -58,42 +72,12 @@ class MaterialListComponent extends Component
         }
     }
 
-    #[Computed]
-    function Materials()
-    {
-
-        if ($this->class && $this->subejct) {
-            $material = Material::getMaterialForClassAndSubject($this->class->id, $this->subejct->id)
-                ->with([
-                    'files' => function ($query) {
-                        $query->withoutTrashed();
-                        $query->when(Auth::user()->isStudent() , function($query){
-                            $query->where('status' , true);
-                        });
-                    }
-                ])
-                ->get();
-
-            // getting the file size for each file
-            Material::getFileSize($material, $this->material_file_path);
-            if ($material) {
-                // init the file status for checkbox field
-                foreach ($material as $single_material) {
-                    foreach ($single_material->files as $single_file) {
-                        $this->status[$single_file->id] = $single_file->status;
-                    }
-                }
-                
-                return $material;
-            }
-        }
-    }
-
-
     // live updating the status of the file , without refresh or save button.
 
-    public function updating($property, $value)
+    public function updating($property, $value, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
     {
+        $this->quizzService = $quizzService;
+        $this->zoomService = $zoomMeetingService;
         if (preg_match('/^status\.(\d+)$/', $property, $matches)) {
             $id = $matches[1];
 
@@ -104,25 +88,19 @@ class MaterialListComponent extends Component
                 ]);
             }
             if ($value) {
-                Notification::make()
-                    ->title('File set to visible')
-                    ->color('success')
-                    ->success()
-                    ->duration(2000)
-                    ->send();
+                $this->success('File set to visible', null, 2000);
             } else {
-                Notification::make()
-                    ->title('File set to un-visible')
-                    ->color('success')
-                    ->success()
-                    ->duration(2000)
-                    ->send();
+                $this->failed('File set to un-visible', null, 2000);
             }
         }
     }
 
-    function deletedFiles()
+    function deletedFiles(QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
     {
+        // re initial when opening modal , because when livewire re-render the page it loses the dependency service so we need to re-inject it once again
+        $this->quizzService = $quizzService;
+        $this->zoomService = $zoomMeetingService;
+
         $deleted_files = Material::getMaterialForClassAndSubject($this->class->id, $this->subejct->id)
             ->whereHas('files', function ($query) {
                 $query->onlyTrashed();
@@ -141,41 +119,88 @@ class MaterialListComponent extends Component
     }
 
 
-    function delete($file_id)
+    function delete($file_id, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
     {
+        $this->quizzService = $quizzService;
+        $this->zoomService = $zoomMeetingService;
+
         $file = FileMaterial::where('id', $file_id)->first();
         if ($file) {
             $file->delete();
-            Notification::make()
-                ->title('File Deleted Successfully :)')
-                ->color('success')
-                ->success()
-                ->send();
+            $this->success('File Deleted Successfully :)');
         }
     }
 
-    function restoreFile($file_id)
+    function restoreFile($file_id, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
     {
+        $this->quizzService = $quizzService;
+        $this->zoomService = $zoomMeetingService;
+
         $file = FileMaterial::onlyTrashed()->where('id', $file_id);
         if ($file) {
             $this->dispatch('close-modal');
             $file->restore();
-            Notification::make()
-                ->title('File Restored Successfully')
-                ->color('success')
-                ->success()
-                ->duration(2000)
-                ->send();
+            $this->success('File Restored Successfully', null, 2000);
         } else {
             $this->dispatch('close-modal');
-            Notification::make()
-                ->title('Something went wrong while restoring your files')
-                ->color('danger')
-                ->danger()
-                ->duration(2000)
-                ->send();
+            $this->failed('Something went wrong while restoring your files', null, 2000);
         }
     }
+
+
+    #[Computed]
+    function Materials()
+    {
+
+        if ($this->class && $this->subejct) {
+            $material = Material::getMaterialForClassAndSubject($this->class->id, $this->subejct->id)
+                ->with([
+                    'files' => function ($query) {
+                        $query->withoutTrashed();
+                        $query->when(Auth::user()->isStudent(), function ($query) {
+                            $query->where('status', true);
+                        });
+                    }
+                ])
+                ->get();
+
+            // getting the file size for each file
+            Material::getFileSize($material, $this->material_file_path);
+            if ($material) {
+                // init the file status for checkbox field
+                foreach ($material as $single_material) {
+                    foreach ($single_material->files as $single_file) {
+                        $this->status[$single_file->id] = $single_file->status;
+                    }
+                }
+
+                return $material;
+            }
+        }
+    }
+
+    #[Computed]
+    function quizzes()
+    {
+        return $this->quizzService->getQuizzes($this->class->id, $this->subejct->id);
+    }
+
+    #[Computed]
+    function ZoomMeetings()
+    {
+        return $this->zoomService->meetings($this->class->id, $this->subejct->id);
+    }
+
+    #[Computed]
+    function Lectures()
+    {
+        if ($this->class && $this->subejct) {
+            return $this->materialsService->getLectures($this->class->id, $this->subejct->id);
+        }else{
+            return [];
+        }
+    }
+
 
     public function render()
     {

@@ -156,15 +156,16 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Package Service Providers...
-         */
+            /*
+             * Package Service Providers...
+             */
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Jubaer\Zoom\ZoomServiceProvider::class,
 
-        /*
-         * Application Service Providers...
-         */
+            /*
+             * Application Service Providers...
+             */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
@@ -186,6 +187,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Zoom' => Jubaer\Zoom\Facades\Zoom::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

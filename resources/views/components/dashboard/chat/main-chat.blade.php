@@ -1,7 +1,11 @@
 <div>
     <!-- Chat Header -->
     <header class="bg-white p-4 text-gray-700">
-        <h1 class="text-2xl font-semibold">{{ $this->all_messages->contact->name }}</h1>
+        <h1 class="text-2xl font-semibold">
+            {{ Auth::user()->id == $this->all_messages->contact->id
+                ? $this->all_messages->user->name
+                : $this->all_messages->contact->name }}
+        </h1>
     </header>
     <hr>
     <!-- Chat Messages -->
@@ -73,7 +77,6 @@
     @push('live-chat-script')
         {{-- notification counter --}}
         <script type="module">
-          
             // this is a livewire event that will be dispatched using the chat livewire conponent for real-time messaging
             Livewire.on('ChatUpdated', (chat_id) => {
                 if (chat_id) {

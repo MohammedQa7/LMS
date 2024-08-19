@@ -48,6 +48,28 @@
                                     :message="$message"></x-dashboard.validation-error-message>
                             @enderror
                         </div>
+
+                        <div class="col-span-3 sm:col-3">
+                            <label for="section-name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Previous section
+                            </label>
+
+                            <select wire:model.live="selected_section" type="text" name="last-name" id="last-name"
+                                class="mb-3 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="">
+                                <option value="">Select new option</option>
+                                @foreach ($this->sections as $single_section)
+                                    @if ($single_section->level->id == $this->selected_level)
+                                        <option value="{{ $single_section->id }}">{{ $single_section->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+
+                            @error('selected_class')
+                                <x-dashboard.validation-error-message
+                                    :message="$message"></x-dashboard.validation-error-message>
+                            @enderror
+                        </div>
                     </div>
                 @endif
                 <button
@@ -55,6 +77,8 @@
                     type="submit">Save all</button>
         </div>
         </form>
+
+        {{-- FILAMENT MODALS --}}
         <x-filament-actions::modals />
 
 

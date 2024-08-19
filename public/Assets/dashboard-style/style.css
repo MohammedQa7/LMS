@@ -1,11 +1,22 @@
-
-.filepond--label-action{
+.filepond--label-action {
     color: #6875F5 !important;
 }
 
-.filepond--credits{
+.filepond--credits {
     display: none !important;
 }
+
 .filament-notification {
-    z-index: 1050 !important; /* Adjust the value as needed */
+    z-index: 1050 !important;
+    /* Adjust the value as needed */
+}
+
+/* .fi-btn-label{
+    color: black !important;
+} */
+
+.fi-fo-field-wrp-error-message {
+    white-space: normal;
+    word-wrap: break-word;
+    color: rgb(194, 1, 1);
 }

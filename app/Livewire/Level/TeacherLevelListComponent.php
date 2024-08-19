@@ -10,8 +10,19 @@ use App\Models\Level;
 use App\Models\Material;
 use App\Models\TeacherTeachingSubject;
 use App\Models\User;
+use App\Traits\NotificationTrait;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Tabs;
 use Filament\Notifications\Livewire\Notifications;
 use Filament\Notifications\Notification;
+use Filament\Resources\Components\Tab;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -23,28 +34,31 @@ use Spatie\LivewireFilepond\WithFilePond;
 
 class TeacherLevelListComponent extends Component
 {
+    use NotificationTrait;
     use WithFileUploads;
     use WithFilePond;
+    public ?array $data = [];
+    
     public $selected_tab = '';
 
 
     // subject educational content
-    #[Validate('required')]
-    public $name_ar;
+    // #[Validate('required')]
+    // public $name_ar;
 
-    #[Validate('required')]
-    public $name_en;
+    // #[Validate('required')]
+    // public $name_en;
 
-    #[Validate('required|max:1024')]
-    public $subject_content_files = [];
+    // #[Validate('required|max:1024')]
+    // public $subject_content_files = [];
 
-    public $file_types;
+    // public $file_types;
 
-    #[Validate('required')]
-    public $selected_file_type;
+    // #[Validate('required')]
+    // public $selected_file_type;
 
-    #[Validate('required')]
-    public $status = false;
+    // #[Validate('required')]
+    // public $status = false;
 
 
     // attendance data
@@ -75,6 +89,13 @@ class TeacherLevelListComponent extends Component
             ->get();
         return $level;
     }
+    // changing the tab and the content based on the tab data
+    public function SelectTab($tab)
+    {
+        if (!is_null($tab)) {
+            $this->selected_tab = $tab;
+        }
+    }
 
     // getting only the classes that the teacher is associated with 
     #[Computed]
@@ -87,68 +108,59 @@ class TeacherLevelListComponent extends Component
         return $level;
     }
 
-    // changing the tab and the content based on the tab data
-    public function SelectTab($tab)
-    {
-        if (!is_null($tab)) {
-            $this->selected_tab = $tab;
-        }
-    }
 
+    // // saving the materials to specific class
+    // function saveSubjectContent($class_id, $subject_id)
+    // {
+    //     $this->validate();
 
+    //     // this is a gate that points to a policy to check if the current user is assigned to this class and subject
+    //     $this->authorize('create-material', [$class_id, $subject_id]);
+    //     try {
+    //         DB::beginTransaction();
+    //         $material = Material::create([
+    //             'name' => [
+    //                 'ar' => $this->name_ar,
+    //                 'en' => $this->name_en,
+    //             ],
+    //             'subject_id' => $subject_id,
+    //             'class_id' => $class_id,
+    //         ]);
 
-    // saving the materials to specific class
-    function saveSubjectContent($class_id, $subject_id)
-    {
-        $this->validate();
-
-        // this is a gate that points to a policy to check if the current user is assigned to this class and subject
-        $this->authorize('create-material', [$class_id, $subject_id]);
-        try {
-            DB::beginTransaction();
-            $material = Material::create([
-                'name' => [
-                    'ar' => $this->name_ar,
-                    'en' => $this->name_en,
-                ],
-                'subject_id' => $subject_id,
-                'class_id' => $class_id,
-            ]);
-
-            if ($material) {
-                foreach ($this->subject_content_files as $single_file) {
-                    $file_path = $single_file->store('material/files', 'public');
-                    $files = FileMaterial::create([
-                        'material_id' => $material->id,
-                        'file' => $file_path,
-                        'type' => $this->selected_file_type,
-                        'status' => $this->status,
-                    ]);
-                }
-            }
-            DB::commit();
-            $this->reset('name_ar', 'name_en', 'status', 'selected_file_type');
-            $this->dispatch('formSubmitted');
-            $this->dispatch('close-modal');
-            Notification::make()
-                ->title('Material Has Been created successfully')
-                ->color('success')
-                ->success()
-                ->icon('heroicon-o-document-text')
-                ->iconColor('success')
-                ->duration(5000)
-                ->send();
-        } catch (\Throwable $th) {
-            dd($th);
-            DB::rollBack();
-            Notification::make()
-                ->title('something went wrong while creating material')
-                ->color('danger')
-                ->danger()
-                ->duration(5000)
-                ->send();
-        }
-    }
+    //         if ($material) {
+    //             foreach ($this->subject_content_files as $single_file) {
+    //                 $file_path = $single_file->store('material/files', 'public');
+    //                 $files = FileMaterial::create([
+    //                     'material_id' => $material->id,
+    //                     'file' => $file_path,
+    //                     'type' => $this->selected_file_type,
+    //                     'status' => $this->status,
+    //                 ]);
+    //             }
+    //         }
+    //         DB::commit();
+    //         $this->reset('name_ar', 'name_en', 'status', 'selected_file_type');
+    //         $this->dispatch('formSubmitted');
+    //         $this->dispatch('close-modal');
+    //         Notification::make()
+    //             ->title('Material Has Been created successfully')
+    //             ->color('success')
+    //             ->success()
+    //             ->icon('heroicon-o-document-text')
+    //             ->iconColor('success')
+    //             ->duration(5000)
+    //             ->send();
+    //     } catch (\Throwable $th) {
+    //         dd($th);
+    //         DB::rollBack();
+    //         Notification::make()
+    //             ->title('something went wrong while creating material')
+    //             ->color('danger')
+    //             ->danger()
+    //             ->duration(5000)
+    //             ->send();
+    //     }
+    // }
 
     function StudnetAttendance($class_id)
     {
@@ -201,6 +213,7 @@ class TeacherLevelListComponent extends Component
         }
 
     }
+
     public function render()
     {
         return view('livewire.level.teacher-level-list-component');

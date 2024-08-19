@@ -16,4 +16,14 @@ class Quiz extends Model
     ];
 
     public $translatable = ['title', 'description'];
+
+
+    // SCOPES
+
+    function scopeGetQuizByClassAndSubject($query , $class_id , $subject_id) {
+        return $query->where('class_id' ,$class_id)
+        ->where('subject_id' , $subject_id);
+    }
+
+    // -----
 }

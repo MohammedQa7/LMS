@@ -41,15 +41,19 @@ class ChatComponent extends Component
     {
         if (Session::has('current_chat')) {
             $current_session_chat_id = Session::get('current_chat');
-            $chat_messages = Chat::where('id', $current_session_chat_id->id)
-                ->with('user', 'contact', 'message')
-                ->first();
+            if ($current_session_chat_id) {
+                $chat_messages = Chat::where('id', $current_session_chat_id->id)
+                    ->with('user', 'contact', 'message')
+                    ->first();
+            }
 
-            // loading all messages for specific chat
-            $this->all_messages = $chat_messages;
-            // pre-select chat that was previously selected
-            $this->selected_chat = $chat_messages->id;
-            Session::put('chat_id', $this->selected_chat);
+            if ($chat_messages) {
+                // loading all messages for specific chat
+                $this->all_messages = $chat_messages;
+                // pre-select chat that was previously selected
+                $this->selected_chat = $chat_messages->id;
+                Session::put('chat_id', $this->selected_chat);
+            }
 
             // dispatching an event to javascript to get all the chat in real-time
             $this->dispatch('ChatUpdated', chat_id: $this->selected_chat);

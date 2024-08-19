@@ -14,6 +14,7 @@ class StudentPortalController extends Controller
     {
         if (Auth::user()) {
             $user = User::where('id', Auth::user()->id)->with('studentLevelWithClasses.class')->first();
+            // getting the subject alongside with its teacher
             $all_subjects = Subject::getSubjectByLevel($user)
                 ->with([
                     'teacher' => function ($query) use ($user) {

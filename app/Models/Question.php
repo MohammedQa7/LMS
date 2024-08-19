@@ -13,4 +13,9 @@ class Question extends Model
         'id',
         'created_at',
     ];
+
+    // Relationships
+    function answers() {
+        return $this->hasMany(Answer::class , 'question_id');
+    }
 }

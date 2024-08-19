@@ -37,6 +37,7 @@
                         <div class="flex-1">
                             <h2 class="text-lg font-semibold">
                                 {{ $single_chat->contact_id == Auth::user()->id ? $single_chat->user->name : $single_chat->contact->name }}
+                                {{ $single_chat->user_id == Auth::user()->id && $single_chat->contact_id == Auth::user()->id ? '(You)' : '' }}
                             </h2>
                         </div>
 
@@ -51,8 +52,6 @@
                                 {{ count($this->user_notifcation[$single_chat->id ?? null] ?? null) == 0 ? '' : count($this->user_notifcation[$single_chat->id ?? null]) }}
                             </span>
                         @endif
-
-
                     </div>
                 </a>
             @endforeach
