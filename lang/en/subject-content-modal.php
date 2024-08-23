@@ -32,6 +32,9 @@ return [
     'promote-modal' => [
         'promote' => 'Promote All',
     ],
+
+
+    // Zoom Meetings
     'zoom-title-field' => 'Meeting Title',
     'zoom-duration-field' => 'Meeting Duration',
     'zoom-start-date-field' => 'Meeting Starts At:',
@@ -41,7 +44,14 @@ return [
     'zoom-section-field' => 'Associated Section',
     'zoom-subject-field' => 'Associated Subject',
     'zoom-duration-minutes-field' => 'Minute',
+
+    // Roles & Permissions
+    'role-name' => 'Role Name',
+    'permissions-name' => 'Permission Name',
+    'assign-user' => 'Assigne To User',
+    // Promotions
     'promotion' => 'Student Promotion',
     'promote-btn' => 'Promote',
     'no-students' => 'No Students',
+
 ];

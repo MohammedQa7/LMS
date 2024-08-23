@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialsService
 {
@@ -52,11 +53,11 @@ class MaterialsService
     function LectureSubmit($lecture_name_ar, $lecture_name_en, $videoFiles, $video_url, $lecture_status, $selected_lecture_section)
     {
         try {
-            if (is_array($videoFiles) && sizeof($videoFiles) <=0) {
+            if (is_array($videoFiles) && sizeof($videoFiles) <= 0) {
                 $videoFiles = null;
             }
             $file_path = !is_null($videoFiles)
-                ? $videoFiles->store('lecture/videos' , 'public')
+                ? $videoFiles->store('lecture/videos', 'public')
                 : null;
 
             $lecture = Lecture::create([
@@ -103,6 +104,25 @@ class MaterialsService
             ->where('subject_id', $subject_id)
             ->with('lectures')
             ->get();
+        $getID3 = new \getID3;
+        $duration = 0;
+        $total_time = 0;
+        foreach ($lectures as $single_section) {
+            foreach ($single_section->lectures as $single_lecture) {
+                // getting the full lecture video length
+                if (!is_null($single_lecture->video_file)) {
+                    $video_path = Storage::disk('public')->path($single_lecture->video_file);
+                    $file = $getID3->analyze($video_path);
+                    $single_lecture->playtime = $file['playtime_string'];
+                    $playtime_seconds = $file['playtime_seconds'];
+                    $duration = $duration + $playtime_seconds;
+                    $total_time = date('i:s', $duration);
+                }
+            }
+            $single_section->total_time = $total_time;
+            $total_time = 0;
+            $duration = 0;
+        }
         if (sizeof($lectures) > 0) {
             return $lectures;
         } else {

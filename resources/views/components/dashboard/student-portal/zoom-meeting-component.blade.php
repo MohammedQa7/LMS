@@ -29,11 +29,20 @@
                         </p>
                     </div>
                 </div>
-                <div class="quiz-start-btn">
-                    <a href="{{ $single_meeting->meeting_url }}"
-                        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700  cursor-pointer transition-all">Join
-                        Now</a>
-                </div>
+
+                @role('teacher|adminstrator')
+                    <div class="quiz-start-btn">
+                        <a href="{{ $single_meeting->start_url }}"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700  cursor-pointer transition-all">{{ trans('generalTrans.Meeting.Start-Meeting') }}</a>
+                    </div>
+                @endrole
+
+                @role('student')
+                    <div class="quiz-start-btn">
+                        <a href="{{ $single_meeting->meeting_url }}"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700  cursor-pointer transition-all">{{ trans('generalTrans.Meeting.Start-Meeting') }}</a>
+                    </div>
+                @endrole
             </div>
         @endforeach
 

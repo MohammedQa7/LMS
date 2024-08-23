@@ -70,6 +70,11 @@ class User extends Authenticatable
 
     public $translatable = ['name', 'gender', 'city', 'address'];
 
+    function getName()
+    {
+        return $this->getTranslation('name', app()->getLocale());
+    }
+
     function isStudent()
     {
         return Auth::user()->hasRole('student');
@@ -124,9 +129,10 @@ class User extends Authenticatable
     //------
 
     // Scopes
-    function scopeSearch($query , $search_query) {
-        $query->where('name' , 'LIKE' , "%$search_query%")
-        ->orWhere('email' , 'LIKE' , "%$search_query%");
+    function scopeSearch($query, $search_query)
+    {
+        $query->where('name', 'LIKE', "%$search_query%")
+            ->orWhere('email', 'LIKE', "%$search_query%");
     }
     //------
     public static function gettingDataForEdit($class, $field_name, $locale)

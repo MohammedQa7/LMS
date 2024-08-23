@@ -14,9 +14,15 @@ class Subject extends Model
     public $translatable = ['name', 'slug'];
 
     // Relationships
+
     function level()
     {
         return $this->belongsToMany(Level::class, 'subject_levels');
+    }
+
+    function user()
+    {
+        return $this->belongsToMany(User::class, 'teacher_teaching_subjects', 'subject_id', 'user_id');
     }
 
     function materials()

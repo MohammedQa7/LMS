@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:Create Student|Manage Students')->only(['create', 'store']);
+        $this->middleware('permission:Manage Students')->only(['index', 'edit', 'show', 'delete']);
+    }
     public function index()
     {
         return view('dashboard-site.Student.student-list');
@@ -21,7 +26,7 @@ class StudentController extends Controller
         $isEditable = true;
         $student = User::with('studentLevelWithClasses')->where('email', $email)->role('student')->first();
         return view('dashboard-site.Student.student-creation')->with([
-            'student'=> $student,
+            'student' => $student,
             'isEditable' => $isEditable,
         ]);
     }

@@ -72,9 +72,8 @@
 
 
                                             <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                                <a href="{{ $single_meeting->meeting_url }}" type="button"
-                                                    class="bg-indigo-500 px-3 py-1 items-center text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-indigo-700 hover:text-gray-100 transition-all disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">Join
-                                                    Now</a>
+                                                <a href="{{ $single_meeting->start_url }}" type="button"
+                                                    class="bg-indigo-600 px-3 py-1 items-center text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-indigo-700 hover:text-gray-100 transition-all disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">{{ trans('generalTrans.Meeting.Start-Meeting') }}</a>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
 

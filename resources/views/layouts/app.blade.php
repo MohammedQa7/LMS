@@ -23,6 +23,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- File upload --}}
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />
     <link rel="stylesheet" href="{{ asset('Assets/dashboard-style/style.css') }}">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -52,7 +53,7 @@
 
             </div>
 
-
+            
         </div>
     @endif
     @filepondScripts
@@ -71,8 +72,11 @@
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.js'></script>
     @stack('script')
     @stack('live-chat-script')
+    
 
 
     <script type="module">

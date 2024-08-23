@@ -14,16 +14,31 @@ return [
         'new-teacher' => 'New Teacher',
         'new-class' => 'New Class',
         'new-subject' => 'New Subject',
+        'new-roles' => 'New Roles & Assigning Permissions',
+        'assign-permission' => 'Assign Permission To User',
         'new-zoom-meeting' => 'New Zoom Meeting',
         'zoom-meetings' => 'Zoom Meetings',
-        'promotion-header' => 'Promotions'
+        'promotion-header' => 'Promotions',
+        'roles-header' => 'Roles & Permissions'
     ],
 
-    'FilamentSectionTitle' =>[
+    'FilamentSectionTitle' => [
         'promote-from' => 'Promote From',
         'promote-to' => 'Promote To',
         'promote-year' => 'Promotion Year',
     ],
     'or' => 'OR',
-  
+
+    'Quiz' => [
+        'Grades' => 'Grades Overview',
+        'Attempted' => 'Attempted At: ',
+        'Start-Quiz' => 'Start The Quiz'
+    ],
+    'Meeting' => [
+        'Start-Meeting' => 'Start The Meeting',
+        'Join-Meeting' => 'Join The Meeting ',
+    ],
+
+    'Delete' => 'Are you sure you want to delete this permission ?',
+
 ];

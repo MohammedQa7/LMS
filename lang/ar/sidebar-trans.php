@@ -10,8 +10,9 @@ return [
     'Sections' => 'اقسام الصفوف',
     'Grades' => 'العلامات',
     'Zoom-Meetings' => 'اجتماعات الزووم',
-    
-    
+    'Roles-Permissions' => 'الأدوار و الصلاحيات',
+
+
     'Add-new-teacher' => 'اضافة استاذ جديد',
     'Add-new-student' => 'اضافة طالب جديد',
     'Add-new-level' => 'اضافة مرحلة تعليمة جديدة',
@@ -25,6 +26,6 @@ return [
     'List-of-all-classes' => 'جميع الصفوف',
     'List-of-all-sections' => 'جميع اقسام الصفوف',
     'List-of-all-subjects' => 'جميع المواد التعليمية',
-    
-    
+
+
 ];

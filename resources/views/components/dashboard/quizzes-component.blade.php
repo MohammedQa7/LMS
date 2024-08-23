@@ -50,12 +50,14 @@
                         </p>
                     </div>
                 </div>
+                @role('student')
                 <div class="quiz-start-btn">
-                    <a href="{{route('start-quiz' , ['quiz_id' => $single_quiz->id])}}"
-                     class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-700  cursor-pointer transition-all">Start Quiz</a>
+                    <a href="{{ route('start-quiz', ['quiz_id' => $single_quiz->id]) }}"
+                        class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-700  cursor-pointer transition-all">{{ trans('generalTrans.Quiz.Start-Quiz') }}</a>
                 </div>
-            </div>
-        @endforeach
+            @endrole
+        </div>
+    @endforeach
 
-    </div>
+</div>
 </div>

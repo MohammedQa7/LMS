@@ -29,20 +29,27 @@ return [
         'save' => 'حفظ',
     ],
 
-    'promote-modal'=>[
+    'promote-modal' => [
         'promote' => 'ترقية الطلاب',
     ],
 
-    'zoom-title-field' => 'عنوان الاجتماع',
-    'zoom-duration-field' => 'مدة الاجتماع',
-    'zoom-start-date-field' => 'يبدء الاجتماع على',
-    'zoom-password-field' => 'كلمة سر الاجتماع',
-    'zoom-level-field' => 'المرحلة الدراسية',
-    'zoom-class-field' => 'الصف',
-    'zoom-subject-field' => 'المادة',
-    'zoom-duration-minutes-field' => 'دقيقة',
-    'zoom-section-field' => 'الاقسام',
-    'promotion' => 'ترقية مستوى الطالب',
+    // Zoom Meetings
+    'zoom-title-field' => 'Meeting Title',
+    'zoom-duration-field' => 'Meeting Duration',
+    'zoom-start-date-field' => 'Meeting Starts At:',
+    'zoom-password-field' => 'Meeting Password',
+    'zoom-level-field' => 'Associated Level',
+    'zoom-class-field' => 'Associated Class',
+    'zoom-section-field' => 'Associated Section',
+    'zoom-subject-field' => 'Associated Subject',
+    'zoom-duration-minutes-field' => 'Minute',
+
+    // Roles & Permissions
+    'role-name' => 'اسم الادور',
+    'permissions-name' => 'اسم الصلاحية',
+    'assign-user' => 'تعيين الى مستخدم',
+    // Promotions
+    'promotion' => 'ترقية الطالب',
     'promote-btn' => 'ترقية',
     'no-students' => 'لا يوجد طلاب',
 ];

@@ -139,7 +139,6 @@ class ZoomListComponent extends Component implements HasForms
     function delete($meeting_id)
     {
         $meeting = Zoom::getMeeting($meeting_id);
-        dd($meeting);
         try {
             DB::beginTransaction();
             $deleted_zoom_meeting = Zoom::deleteMeeting($meeting_id);

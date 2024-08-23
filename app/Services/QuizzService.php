@@ -17,7 +17,11 @@ class QuizzService
     public function getQuizzes($class_id, $subject_id)
     {
         if ($class_id && $subject_id) {
-            $quiz = Quiz::getQuizByClassAndSubject($class_id, $subject_id)
+            $quiz = Quiz::
+                whereHas('attempts' , function($query){
+                    $query->where('user_id' , Auth::user()->id);
+                }, '<' ,DB::raw('quizzes.attempts'))
+                ->getQuizByClassAndSubject($class_id, $subject_id)
                 ->where('end_date', '>', now())
                 ->get();
 
@@ -65,11 +69,16 @@ class QuizzService
     function AssignAttempt($quiz, $user)
     {
         $existing_attempt = UserAttempts::getSpecificAttempt($quiz, $user)->first();
+        $startTime = Carbon::parse(now());
+        $timeLimit = $quiz->time_limit_in_seconds; // e.g., 300 seconds
+        $endTime = $startTime->addSeconds($timeLimit);
+
         if (is_null($existing_attempt)) {
             $user_attempt = UserAttempts::create([
                 'user_id' => $user->id,
                 'quiz_id' => $quiz->id,
                 'started_at' => now(),
+                'ended_at' => $endTime,
                 'is_active' => true,
                 'score' => null
             ]);

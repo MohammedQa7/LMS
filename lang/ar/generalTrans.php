@@ -15,16 +15,28 @@ return [
         'new-class' => 'صف جديد',
         'new-subject' => 'مادة جديدة',
         'new-zoom-meeting' => 'اجتماع زووم جديد',
+        'new-roles' => 'ادوار جديدة و تعين صلاحيات',
         'zoom-meetings' => 'اجتماعات زووم',
-        'promotion-header' => 'ترقيات الطلاب'
+        'promotion-header' => 'ترقيات الطلاب',
+        'roles-header' => 'الأدوار والصلاحيات'
     ],
 
-    'FilamentSectionTitle' =>[
+    'FilamentSectionTitle' => [
         'promote-from' => 'الترقية من ',
         'promote-to' => 'الترقية الى',
         'promote-year' => 'سنة الترقية ',
     ],
     'or' => 'أو',
-  
-    
+
+    'Quiz' => [
+        'Grades' => 'العلامات',
+        'Attempted' => 'تمت المحاولة في',
+        'Start-Quiz' => 'ابدا الامتحان الان'
+    ],
+    'Meeting' => [
+        'Start-Meeting' => 'ابدا الاجتماع',
+        'Join-Meeting' => 'ادخل الاجتماع ',
+    ],
+
+    'Delete' => 'هل انت متأكد من حذف هذه الصلاحية ؟',
 ];

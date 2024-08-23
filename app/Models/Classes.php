@@ -18,6 +18,10 @@ class Classes extends Model
 
 
     // Relationships
+    function user()
+    {
+        return $this->belongsToMany(User::class, 'teacher_teaching_subjects', 'class_id', 'user_id');
+    }
     function sections()
     {
         return $this->belongsTo(Section::class, 'section_id');

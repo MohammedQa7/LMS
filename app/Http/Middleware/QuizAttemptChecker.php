@@ -21,6 +21,7 @@ class QuizAttemptChecker
     public function handle(Request $request, Closure $next): Response
     {
 
+
         // get the current student
         $user = User::where('id', Auth::user()->id)
             ->role('Student')
@@ -34,7 +35,9 @@ class QuizAttemptChecker
         if (isset($quiz) && !is_null($user) && $user->studentLevelWithClasses->class_id != $quiz->class_id) {
             abort(403);
         } else {
-            $user_attempts = UserAttempts::where('quiz_id', $quiz_id)->count();
+            $user_attempts = UserAttempts::where('quiz_id', $quiz_id)
+                ->where('is_active', false)
+                ->count();
             $quiz_start_date = Carbon::parse($quiz->start_date);
             $quiz_end_date = Carbon::parse($quiz->end_date);
             if ($user_attempts >= $quiz->attempts || !now()->between($quiz_start_date, $quiz_end_date)) {

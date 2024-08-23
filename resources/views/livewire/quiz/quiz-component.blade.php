@@ -1,4 +1,4 @@
-<div class="grid grid-cols-4 h-full gap-4 justify-center items-center mx-auto mx-10">
+<div class="grid grid-cols-4 h-full gap-4 justify-center items-center  mx-10">
     <div class="left-side-quiz-info flex justify-center items-center w-full h-full ">
         <div
             class=" text-gray-600 m-2 w-full overflow-y-hidden tablet:grid-rows-1 border border-gray-300  rounded-lg p-4 ">
@@ -10,6 +10,7 @@
                     <h1>{{ Auth::user()->name }}</h1>
                 </div>
             </div>
+            
 
             <div class="questsion-navigator mt-5">
                 <h1 class="font-bold text-lg mb-1 ">Questions</h1>
@@ -43,7 +44,7 @@
                             </svg>
 
 
-                            {{$this->current_page}} / {{ $this->quiz->total_score }}
+                            {{ $this->current_page }} / {{ $this->quiz->total_score }}
                         </p>
                     </div>
                     <div>
@@ -81,8 +82,8 @@
                     @foreach ($questions[$this->current_page]['answers'] as $single_answer)
                         <li>
                             <input wire:model.live="selected_answers" id="option-{{ $single_answer['id'] }}"
-                                type="radio" name="options" value="{{ $single_answer['id'] ?? null }}" class="hidden peer"
-                                required />
+                                type="radio" name="options" value="{{ $single_answer['id'] ?? null }}"
+                                class="hidden peer" required />
                             <label for="option-{{ $single_answer['id'] }}"
                                 class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                                 <div class="block">
@@ -93,12 +94,18 @@
                     @endforeach
                 </ul>
             </div>
-
             <div class="flex items-center justify-center">
-                <button wire:click.prevent="submit({{ $key }})"
-                    class="px-12 py-4 bg-gray-600 text-white text-lg rounded-lg hover:bg-gray-700 transition w-full md:w-1/3 mt-5">
-                    Next
-                </button>
+                @if ($this->current_page == count($this->current_question))
+                    <button wire:click.prevent="submit({{ $this->current_page }})"
+                        class="px-12 py-4 bg-gray-600 text-white text-lg rounded-lg hover:bg-gray-700 transition w-full md:w-1/3 mt-5">
+                        Submit Quiz
+                    </button>
+                @else
+                    <button wire:click.prevent="submit({{ $this->current_page }})"
+                        class="px-12 py-4 bg-gray-600 text-white text-lg rounded-lg hover:bg-gray-700 transition w-full md:w-1/3 mt-5">
+                        Next
+                    </button>
+                @endif
             </div>
 
         </div>

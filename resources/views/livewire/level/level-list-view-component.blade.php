@@ -1,22 +1,5 @@
 <div>
-    <div class="taps">
-        <div class="flex items-center justify-center ">
-            <div
-                class="flex  bg-gray-200 hover:bg-gray-200 rounded-lg transition p-1 dark:bg-neutral-700 dark:hover:bg-neutral-600  overflow-x-auto">
-                <nav class="flex gap-x-1 w-full" aria-label="Tabs" role="tablist">
-                    @foreach ($this->Levels as $single_level)
-                        <button wire:click.prevent="SelectTab('{{ $single_level->name }}')"
-                            class="{{ $single_level->name == $this->selected_tab ? 'bg-white ' : 'hover:bg-indigo-100' }} text-gray-700  dark:bg-neutral-800 dark:text-neutral-400 py-3 px-4 inline-flex items-center gap-x-2  text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 font-medium rounded-lg  disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:text-white dark:focus:text-white "
-                            id="segment-item-{{ $loop->index }}" role="tab">
-                            {{ $single_level->name }}
-                        </button>
-                    @endforeach
 
-
-                </nav>
-            </div>
-        </div>
-    </div>
 
     <div class="relative sm:rounded-lg pt-5">
         <div class=" mb-4 bg-white dark:bg-gray-900 flex justify-between items-center">
@@ -46,6 +29,9 @@
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
                                         Name</th>
                                     <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
+                                        Classes</th>
+                                    <th scope="col"
                                         class=" px-6 py-3 text-start  text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
                                         Created in</th>
                                     <th scope="col"
@@ -65,6 +51,16 @@
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                                                 {{ $single_level->name }}</td>
                                             <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                                <ul style="list-style-type: circle">
+                                                    @if ($single_level->classes)
+                                                        @foreach ($single_level->classes as $single_class)
+                                                            <li>{{ $single_class->name }}</li>
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                            </td>
+                                            <td
                                                 class="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                                                 {{ $single_level->created_at->diffForHumans() }}</td>
 
@@ -75,7 +71,7 @@
                                                     class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">Edit</a>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                                
+
                                                 <button wire:click="delete('{{ $single_level->slug }}')" type="button"
                                                     class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">Delete</button>
                                             </td>

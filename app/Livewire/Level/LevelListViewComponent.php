@@ -3,6 +3,7 @@
 namespace App\Livewire\Level;
 
 use App\Models\Level;
+use App\Traits\NotificationTrait;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -10,24 +11,14 @@ use Spatie\LivewireFilepond\WithFilePond;
 
 class LevelListViewComponent extends Component
 {
-    public $selected_tab = '';
-    public function mount()
-    {
-        $this->selected_tab = Level::first()->name ?? null;
-    }
 
+    use NotificationTrait;
     #[Computed]
     public function Levels()
     {
-        $level = Level::get();
-        return $level;
-    }
 
-    public function SelectTab($tab)
-    {
-        if (!is_null($tab)) {
-            $this->selected_tab = $tab;
-        }
+        $level = Level::with('classes')->get();
+        return $level;
     }
 
     public function delete($slug)
@@ -36,8 +27,9 @@ class LevelListViewComponent extends Component
             $level = Level::GetLevelBySlug($slug)->first();
             if ($level) {
                 $level->delete();
+                $this->success('Level Deleted Successfully');
             } else {
-                dd('fail');
+                $this->failed('Something went wrong while trying to delete level');
             }
         }
     }

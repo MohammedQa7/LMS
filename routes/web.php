@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\adminstrators\RolesController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\dashboardController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentPortal\GradesController;
 use App\Http\Controllers\StudentPortal\StudentPortalController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
@@ -36,16 +38,21 @@ Route::group(
     ],
     function () {
         // making livewire to work when using Mcamara translation duo to the extra prefix that mcamara has "/en"
-        //     Livewire::setUpdateRoute(function ($handle) {
-        //     return Route::post('/livewire/update', $handle);
-        // });
-    
-        // Dashboard Routes
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/livewire/update', $handle);
+        });
+
+        //  Dashboard Routes
         Route::get('/', [dashboardController::class, 'index'])->name('dashboard');
 
 
-        Route::middleware(['auth:sanctum', 'role:student', 'verified'])->group(function () {
-            Route::resource('/portal/studnet', StudentPortalController::class)->names('student-portal');
+        Route::prefix('/portal/student')->middleware(['auth:sanctum', 'role:student', 'verified'])->group(function () {
+            // Dashbaord For the studens
+            Route::resource('', StudentPortalController::class)->names('student-portal');
+            // Students Grades
+            Route::get('/grades', GradesController::class)->name('student-grades');
+
+            // only students who is associated with the class can access the quiz
             Route::get('/quiz/{quiz_id}/start', [QuizController::class, 'startQuiz'])->name('start-quiz')->middleware('QuizAttemptChecker');
         });
 
@@ -57,8 +64,10 @@ Route::group(
         Route::middleware(['role:teacher|administrator'])->group(function () {
             //Teacher
             Route::resource('/teacher', TeacherController::class)->names('teacher');
+
             // Student
             Route::resource('/student', StudentController::class)->names('student');
+
             //Level
             Route::resource('/level', LevelController::class)->names('level');
 
@@ -71,31 +80,45 @@ Route::group(
             //Subjects
             Route::resource('/subject', SubjectController::class)->names('subject');
 
+            // Creating Quiz
             Route::get('/quiz/{class_id}/{subject_id}/create', [QuizController::class, 'create'])->name('create-quiz');
+
+            // Zoom Meetings
             Route::get('zoom/meetings', [ZoomController::class, 'index'])->name('zoom-meeting-index');
-            Route::resource('promotion/student', PromotionsController::class)->names('student-promotion');
+
+
         });
 
+
+        // global routes for all type of users Routes
         // View Materials and Download them should be accessible to all user types.
         Route::middleware(['role:teacher|administrator|student'])->group(function () {
             // show materials that belongs to a subject / class
             Route::get('/material/{class_slug}/{subject_slug}/view', [MaterialController::class, 'showSpecificMaterial'])->name('specific-subject-material');
             Route::get('/material/{file_id?}/{file_name?}/download', [MaterialController::class, 'download'])->name('download_file');
-            // only students who is associated with the class can access the quiz
+
             // chat routes
             Route::resource('/chat', ChatController::class)->names('chat');
 
         });
 
         // Promoting Students (ADMINSTRATOR)
-        Route::middleware(['role:administrator'])->group(function () {
-
+        Route::middleware(['role_or_permission:administrator|Manage Student Promotions'])->group(function () {
+            // Promotion for students
+            Route::resource('promotion/student', PromotionsController::class)->names('student-promotion');
         });
 
-        // if route not found redirect to the homepage / main page
-        Route::fallback(function () {
-            return redirect('/');
+        // Roles And Permissions
+        Route::middleware(['role_or_permission:administrator|Manage Roles'])->group(function () {
+            // Creating roles and assign them to specific permissions and users.
+            Route::resource('/roles-permissions', RolesController::class)->names('roles');
         });
+
+
+        // // if route not found redirect to the homepage / main page
+        // Route::fallback(function () {
+        //     return redirect('/');
+        // });
     },
 );
 

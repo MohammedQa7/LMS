@@ -42,4 +42,27 @@ class globalFunctionsHelper
         }
     }
 
+
+    public static function Permissions()
+    {
+        return [
+            'Manage Levels' => 'Manage Levels',
+            'Create Levels' => 'Create Level',
+
+            'Manage Classes' => 'Manage Classes',
+            'Create Class' => 'Create Class',
+
+
+            'Manage Sections' => 'Manage Sections',
+            'Create Section' => 'Create Section',
+
+            'Manage Subjects' => 'Manage Subjects',
+            'Create Subject' => 'Create Subject',
+
+            'Manage Student Promotions' => 'Manage Student Promotions',
+            'Manage Zoom Meetings' => 'Manage Zoom Meetings',
+            'Manage Roles' => 'Manage Roles',
+            'Finance Manager' => 'Finance Manager',
+        ];
+    }
 }

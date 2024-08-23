@@ -74,10 +74,11 @@ class MaterialListComponent extends Component
 
     // live updating the status of the file , without refresh or save button.
 
-    public function updating($property, $value, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
+    public function updating($property, $value, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService, MaterialsService $materialsService)
     {
         $this->quizzService = $quizzService;
         $this->zoomService = $zoomMeetingService;
+        $this->materialsService = $materialsService;
         if (preg_match('/^status\.(\d+)$/', $property, $matches)) {
             $id = $matches[1];
 
@@ -95,11 +96,12 @@ class MaterialListComponent extends Component
         }
     }
 
-    function deletedFiles(QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
+    function deletedFiles(QuizzService $quizzService, ZoomMeetingService $zoomMeetingService, MaterialsService $materialsService)
     {
         // re initial when opening modal , because when livewire re-render the page it loses the dependency service so we need to re-inject it once again
         $this->quizzService = $quizzService;
         $this->zoomService = $zoomMeetingService;
+        $this->materialsService = $materialsService;
 
         $deleted_files = Material::getMaterialForClassAndSubject($this->class->id, $this->subejct->id)
             ->whereHas('files', function ($query) {
@@ -119,22 +121,25 @@ class MaterialListComponent extends Component
     }
 
 
-    function delete($file_id, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
+    function delete($file_id, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService, MaterialsService $materialsService)
     {
         $this->quizzService = $quizzService;
         $this->zoomService = $zoomMeetingService;
+        $this->materialsService = $materialsService;
 
         $file = FileMaterial::where('id', $file_id)->first();
+        $this->authorize('delete', [FileMaterial::class, $file]);
         if ($file) {
             $file->delete();
             $this->success('File Deleted Successfully :)');
         }
     }
 
-    function restoreFile($file_id, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService)
+    function restoreFile($file_id, QuizzService $quizzService, ZoomMeetingService $zoomMeetingService, MaterialsService $materialsService)
     {
         $this->quizzService = $quizzService;
         $this->zoomService = $zoomMeetingService;
+        $this->materialsService = $materialsService;
 
         $file = FileMaterial::onlyTrashed()->where('id', $file_id);
         if ($file) {
@@ -196,7 +201,7 @@ class MaterialListComponent extends Component
     {
         if ($this->class && $this->subejct) {
             return $this->materialsService->getLectures($this->class->id, $this->subejct->id);
-        }else{
+        } else {
             return [];
         }
     }

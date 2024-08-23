@@ -93,7 +93,7 @@
         <h1 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-4xl"><span
                 class="text-transparent font-extrabold bg-clip-text bg-gradient-to-r to-purple-600 from-indigo-400">Lectures</span>
         </h1>
-        @if (sizeof($this->Lectures) > 0)
+        @if ($this->Lectures)
 
             @foreach ($this->Lectures as $single_section)
                 <div class="flex w-full flex-col gap-4 text-slate-700 dark:text-slate-300 mb-2">
@@ -107,11 +107,17 @@
                             :aria-expanded="isExpanded ? 'true' : 'false'">
                             {{-- Lecture Section name --}}
                             {{ $single_section->name }}
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
-                                stroke="currentColor" class="size-5 shrink-0 transition" aria-hidden="true"
-                                :class="isExpanded ? 'rotate-180' : ''">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
+                            <div class="flex items-center gap-3">
+                                <!-- total Section Duration -->
+                                <p class="text-sm">
+                                    {{ $single_section->total_time == 0 ? '' : $single_section->total_time }}</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke-width="2" stroke="currentColor" class="size-5 shrink-0 transition"
+                                    aria-hidden="true" :class="isExpanded ? 'rotate-180' : ''">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </div>
                         </button>
                         {{-- Accordion --}}
                         <div x-cloak x-show="isExpanded" id="accordionItemOne" role="region"
@@ -127,15 +133,19 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
                                             </svg>
-
                                             {{-- Lecture name --}}
                                             <p class="ms-2">{{ $single_lecture->name }}</p>
                                         </div>
-                                        <div class="lecture-play-btn">
-                                            {{-- Modal Button --}}
+                                        {{-- Modal Button --}}
+                                        <div class="lecture-play-btn flex items-center gap-3">
+
+                                            <!--  Lecture Duration -->
+                                            <p class="text-sm">
+                                                {{ $single_lecture->playtime }}
+                                            </p>
+
                                             @if ($single_lecture->video_url != '' && !is_null($single_lecture->video_url))
-                                                <a href="{{ $single_lecture->video_url }}"
-                                                    target="_blank"
+                                                <a href="{{ $single_lecture->video_url }}" target="_blank"
                                                     class="inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-xl bg-indigo-700 px-3 py-2 text-center text-sm font-medium tracking-wide text-slate-100 transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:opacity-100 active:outline-offset-0 dark:bg-blue-600 dark:text-slate-100 dark:focus-visible:outline-blue-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                         aria-hidden="true" fill="currentColor" class="w-4 h-4">
@@ -160,7 +170,8 @@
 
                                         </div>
                                         {{-- Video Modal --}}
-                                        <x-dashboard.lecture.video-player :single_lecture="$single_lecture"></x-dashboard.lecture.video-player>
+                                        <x-dashboard.lecture.video-player
+                                            :single_lecture="$single_lecture"></x-dashboard.lecture.video-player>
                                     </div>
                                     {{-- Seperator --}}
                                     <hr>

@@ -9,7 +9,7 @@
                 </div>
                 @foreach ($all_subjects as $single_subject)
                     <div class="flex justify-between">
-                        <a href="{{route('specific-subject-material' ,['class_slug' => $user->studentLevelWithClasses->class->slug , 'subject_slug' => $single_subject->slug])}}"
+                        <a href="{{ route('specific-subject-material', ['class_slug' => $user->studentLevelWithClasses->class->slug, 'subject_slug' => $single_subject->slug]) }}"
                             class="text-md text-blue-600 underline dark:text-blue-500 hover:no-underline">{{ $single_subject->name }}</a>
                         <a href="#">{{ trans('generalTrans.Teacher') }}:
                             <span
@@ -19,5 +19,7 @@
                 @endforeach
             </div>
         </div>
+        @livewire('calendar')
     </div>
+
 </x-app-layout>

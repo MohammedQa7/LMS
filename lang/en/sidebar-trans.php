@@ -10,6 +10,7 @@ return [
     'Subjects' => 'Subjects',
     'Grades' => 'Grades',
     'Zoom-Meetings' => 'Zoom Meetings',
+    'Roles-Permissions' => 'Roles & Permissions',
 
     'Add-new-teacher' => 'Add new teacher',
     'Add-new-student' => 'Add new student',

@@ -20,3 +20,17 @@
     word-wrap: break-word;
     color: rgb(194, 1, 1);
 }
+
+.fc-daygrid-event{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+    background-color: #EDEBFE;
+    padding: 7px;
+    margin-bottom: 3px;
+}
+
+.fc-event-main{
+    color:black !important;
+}

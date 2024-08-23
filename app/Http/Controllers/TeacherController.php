@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
-    // Custom Authentication
-
+    public function __construct()
+    {
+        $this->middleware('permission:Create Teacher|Manage Teachers')->only(['create', 'store']);
+        $this->middleware('permission:Manage Teachers')->only(['index', 'edit', 'show', 'delete']);
+    }
     // Normal Functions
     public function index()
     {
@@ -23,7 +26,7 @@ class TeacherController extends Controller
     }
     public function edit($email)
     {
-        $teacher = User::role('teacher')->where('email', $email)->with('levels' , 'classes')->first();
+        $teacher = User::role('teacher')->where('email', $email)->with('levels', 'classes')->first();
         return view('dashboard-site.teacher.teacher-creation')->with('teacher', $teacher);
     }
 
