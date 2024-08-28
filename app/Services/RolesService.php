@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolesService
 {
@@ -54,6 +55,14 @@ class RolesService
 
         return $form
             ->schema([
+                Select::make('role_name')
+                    ->label(trans('subject-content-modal.role-name'))
+                    ->options(
+                        Role::whereHas('permissions')->get()->pluck('name', 'id')
+                    )
+                    ->native(false)
+                    ->searchable()
+                    ->required(),
                 Select::make('permission_name')
                     ->label(trans('subject-content-modal.permissions-name'))
                     ->options(
@@ -62,16 +71,6 @@ class RolesService
                     ->multiple()
                     ->native(false)
                     ->searchable()
-                    ->required(),
-                Select::make('user_id')
-                    ->options([
-                        'Teachers' => User::role('teacher')->get()->pluck('email', 'id')->toArray(),
-                        'Students' => User::role('student')->get()->pluck('email', 'id')->toArray(),
-                    ])
-                    ->label('Select User')
-                    ->placeholder('Select a user')
-                    ->searchable()
-                    ->native(false)
                     ->required(),
             ])
             ->columns(2)

@@ -11,8 +11,8 @@ class SectionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:Create Section|Manage Sections')->only(['create', 'store']);
-        $this->middleware('permission:Manage Sections')->only(['index', 'edit', 'show', 'delete']);
+        $this->middleware('role_or_permission:administrator|Create Section|Manage Sections')->only(['create', 'store']);
+        $this->middleware('role_or_permission:administrator|Manage Sections')->only(['index', 'edit', 'show', 'delete']);
     }
     public function index()
     {

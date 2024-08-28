@@ -31,7 +31,9 @@ class User extends Authenticatable
 
     //User Type
     const STUDENT = 'student';
-    const TEACHER = 'Teacher';
+    // const TEACHER = 'Teacher';
+    const TEACHER = 'teacher';
+    const ADMINISTRATOR = 'administrator';
 
 
     protected $guarded = [

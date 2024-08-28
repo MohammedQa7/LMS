@@ -10,8 +10,8 @@ class ClassController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:Create Class | Manage Classes')->only(['create', 'store']);
-        $this->middleware('permission:Manage Classes')->only(['index', 'edit', 'show', 'delete']);
+        $this->middleware('role_or_permission:administrator|Create Class | Manage Classes')->only(['create', 'store']);
+        $this->middleware('role_or_permission:administrator|Manage Classes')->only(['index', 'edit', 'show', 'delete']);
     }
     public function index()
     {

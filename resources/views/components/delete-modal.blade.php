@@ -1,9 +1,9 @@
-@props(['role' , 'user' ,'permission'])
+@props(['role', 'permission'])
 <div>
-    @if ($permission)
+    @if ($permission && $role)
         <div x-show="modelOpen" x-on:close-modal.window = "modelOpen = false" class="fixed inset-0 z-50 overflow-y-auto"
             aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            <div class="flex items-center justify-center min-h-screen px-4 text-center md:items-center sm:flex sm:p-0">
+            <div class="flex items-center justify-center px-4 text-center md:items-center sm:flex sm:p-0">
                 <div x-cloak @click="modelOpen = false" x-show="modelOpen"
                     x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0"
                     x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200 transform"
@@ -34,7 +34,7 @@
                     <form wire:submit="submit" class="mt-5 rtl:text-start">
                         <h1>By revoking this permission, All users will be affected by that change immediately.</h1>
                         <div class="flex mt-6 gap-3">
-                            <button wire:click.prevent="RevokePermission('{{ $role }}', '{{ $user }}' , '{{ $permission }}')"
+                            <button wire:click.prevent="RevokePermission('{{ $role }}' , '{{ $permission }}')"
                                 class="flex w-full items-center justify-center px-3 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-500 rounded-md dark:bg-red-600 dark:hover:bg-red-700 dark:focus:bg-red-700 hover:bg-red-600 focus:outline-none focus:bg-red-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-4 me-1">

@@ -15,7 +15,7 @@ return [
         'new-class' => 'New Class',
         'new-subject' => 'New Subject',
         'new-roles' => 'New Roles & Assigning Permissions',
-        'assign-permission' => 'Assign Permission To User',
+        'assign-permission' => 'Assign Permission To Role',
         'new-zoom-meeting' => 'New Zoom Meeting',
         'zoom-meetings' => 'Zoom Meetings',
         'promotion-header' => 'Promotions',
@@ -39,6 +39,8 @@ return [
         'Join-Meeting' => 'Join The Meeting ',
     ],
 
-    'Delete' => 'Are you sure you want to delete this permission ?',
+    'Delete' => 'Are you sure you want to revoke this permission ?',
+    'Reschedule-title' => 'Are you sure you want to reschedule this event ?',
+    'Reschedule-description' => 'By Rescheduling this event, All users will be notified by that change immediately. ?',
 
 ];

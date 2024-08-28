@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\StudentPortal;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,11 +23,17 @@ class StudentPortalController extends Controller
                     }
                 ], 'teacher.class')
                 ->get();
+
+            $chat_notification = Auth::user()
+                ->notifications()
+                ->whereRaw('notification_type = ? ', Event::NOTIFICATIONS_TYPE)
+                ->get();
+            // dd($chat_notification->toArray());
         }
 
         return view('student-portal.dashboard')->with([
-            'all_subjects'=> $all_subjects,
-            'user'=> $user,
+            'all_subjects' => $all_subjects,
+            'user' => $user,
         ]);
     }
 }

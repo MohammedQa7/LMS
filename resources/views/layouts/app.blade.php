@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="{{ app()->getLocale() == 'ar' ? 'rtl' : '' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html dir="{{ app()->getLocale() == 'ar' ? 'rtl' : '' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}" class=" scroll-smooth">
 
 <head>
     <meta charset="utf-8">
@@ -52,8 +52,6 @@
                 {{ $slot }}
 
             </div>
-
-            
         </div>
     @endif
     @filepondScripts
@@ -67,16 +65,15 @@
     {{-- Flowbite --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
     {{-- Charts --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     {{-- File upload --}}
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.js'></script>
     @stack('script')
     @stack('live-chat-script')
-    
 
 
     <script type="module">

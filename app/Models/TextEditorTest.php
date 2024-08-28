@@ -4,15 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Translatable\HasTranslations;
 
-class Event extends Model
+class TextEditorTest extends Model
 {
-    const NOTIFICATIONS_TYPE = "event";
     use HasFactory;
 
     protected $guarded = [
-        'id',
+        'id'
     ];
-
 }

@@ -9,8 +9,8 @@ class StudentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:Create Student|Manage Students')->only(['create', 'store']);
-        $this->middleware('permission:Manage Students')->only(['index', 'edit', 'show', 'delete']);
+        $this->middleware('role_or_permission:administrator|Create Student|Manage Students')->only(['create', 'store']);
+        $this->middleware('role_or_permission:administrator|Manage Students')->only(['index', 'edit', 'show', 'delete']);
     }
     public function index()
     {

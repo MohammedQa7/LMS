@@ -1,6 +1,7 @@
 <div class="flex h-screen overflow-hidden">
     <!-- Sidebar -->
     <div class="w-1/4 bg-white border-r border-gray-300">
+
         <!-- Sidebar Header -->
         <header x-data="{ modelOpen: false }"
             class="p-4 border-b border-gray-300 flex justify-between items-center bg-white text-black ">

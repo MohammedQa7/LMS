@@ -16,10 +16,14 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Monolog\Handler\DeduplicationHandler;
+use Spatie\LivewireFilepond\WithFilePond;
 
 class ChatComponent extends Component
 {
-
+    use WithFilePond;
+    use WithFileUploads;
 
     // only users with previous chat
     public $searched_user;
@@ -28,6 +32,9 @@ class ChatComponent extends Component
     // message that need to be sent
     public $message;
 
+    public $LivewireTempFiles = [];
+    public $UploadedFiles = [];
+
     #[Validate('exists:chats,id', onUpdate: false)]
     public $selected_chat;
 
@@ -35,10 +42,13 @@ class ChatComponent extends Component
 
     public $highlighted_chat = [];
 
+    public $ids = [];
 
     public $user_notifcation;
     function mount()
     {
+        $this->UploadedFiles = [];
+        $this->LivewireTempFiles = [];
         if (Session::has('current_chat')) {
             $current_session_chat_id = Session::get('current_chat');
             if ($current_session_chat_id) {
@@ -161,10 +171,71 @@ class ChatComponent extends Component
                 ->send();
         }
     }
+    public function updatedFiles()
+    {
+        $this->validate([
+            'file.*' => 'file|max:102400', // 100MB in kilobytes
+        ]);
+    }
 
+    public function updating($property, $value)
+    {
+        if ($property === 'file') {
+            // dump('asd');
+        }
+        // if (preg_match('/^selected_courses\.(\d+)\.level$/', $property, $matches)) {
+
+        // }
+    }
+    #[On('deletedFile')]
+    function showfile($deleted_file_id = null)
+    {
+        if ($this->UploadedFiles) {
+            // Handle the file
+            foreach ($this->UploadedFiles as $key => $file) {
+                // Check if the value to be deleted exists in the current nested array
+                if (isset($file['id']) && $file['id'] === $deleted_file_id) {
+                    // Remove the outer array element if the condition is met
+                    unset($this->UploadedFiles[$key]);
+                }
+            }
+
+            // print_r($this->UploadedFiles);
+
+            $this->dispatch('IsThereFiles', files: $this->UploadedFiles);
+            // dd($this->UploadedFiles, $deleted_file_id);
+        } else {
+            $this->UploadedFiles = [];
+            $this->LivewireTempFiles = [];
+        }
+    }
+    #[On('addID_toFiles')]
+    function addIdToFile($id)
+    {
+        if ($id && $this->LivewireTempFiles) {
+            foreach ($id as $index => $single_file_id) {
+                // Ensure you're not looping twice unnecessarily
+                if (isset($this->LivewireTempFiles[$index])) {
+                    $single_file = $this->LivewireTempFiles[$index];
+                    // Add to the uploaded files array
+                    if (!isset($this->UploadedFiles[$index])) {
+                        $this->UploadedFiles[] = [
+                            'file' => $single_file,
+                            'id' => $single_file_id,
+                        ];
+
+                    }
+                }
+            }
+            // $this->UploadedFiles = $this->UploadedFiles;
+        }
+
+        // dd($this->UploadedFiles);
+        // Clear the temp files after processing
+        // $this->LivewireTempFiles = [];
+    }
     function send()
     {
-
         if ($this->message && $this->selected_chat) {
             $message = Message::create([
                 'chat_id' => $this->selected_chat,

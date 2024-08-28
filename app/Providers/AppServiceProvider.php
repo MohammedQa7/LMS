@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Channels\DatabaseNotificationChannel;
 use App\Models\Material;
 use App\Models\TeacherTeachingSubject;
 use App\Models\User;
 use App\Policies\MaterialPolicy;
+use Illuminate\Notifications\Channels\DatabaseChannel;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -33,7 +35,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('create-material', function (User $user , $class_id , $subject_id) {
             return app(MaterialPolicy::class)->createMaterial($user , $class_id , $subject_id);
         });
-
 
         Blade::component('notify-messages', \Mckenziearts\Notify\View\Components\NotifyMessages::class);
     }

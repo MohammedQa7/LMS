@@ -11,8 +11,8 @@ class TeacherController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:Create Teacher|Manage Teachers')->only(['create', 'store']);
-        $this->middleware('permission:Manage Teachers')->only(['index', 'edit', 'show', 'delete']);
+        $this->middleware('role_or_permission:administrator|Create Teacher|Manage Teachers')->only(['create', 'store']);
+        $this->middleware('role_or_permission:administrator|Manage Teachers')->only(['index', 'edit', 'show', 'delete']);
     }
     // Normal Functions
     public function index()

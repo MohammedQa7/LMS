@@ -53,6 +53,7 @@
                             <x-dashboard.modals.RolesModal></x-dashboard.modals.RolesModal>
                         </div>
 
+                        {{-- CANCELED --}}
                         <div x-data="{ modelOpen: false }" class="create-btn w-full">
                             <a @click="modelOpen =!modelOpen, $dispatch('Change',{'form' : 'permissions'})"
                                 class="w-full text-black inline-flex items-center px-3 py-2 text-sm font-medium text-center  focus:ring-4 focus:ring-primary-300 dark:text-white dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 hover:bg-gray-200 cursor-pointer">
@@ -66,6 +67,7 @@
                             </a>
                             <x-dashboard.modals.PermissionsModal></x-dashboard.modals.PermissionsModal>
                         </div>
+                        {{-- ----------- --}}
                     </div>
                 </div>
             </div>
@@ -88,12 +90,15 @@
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
                                         Permissions</th>
 
-                                    <th scope="col"
+                                    {{-- CANCELED --}}
+                                    {{-- <th scope="col"
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
-                                        Permissions not associated with roles</th>
+                                        Permissions not associated with roles</th> --}}
                                     <th scope="col"
                                         class=" px-6 py-3 text-start  text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
                                         Created at</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
                                     <th scope="col"
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
                                     </th>
@@ -122,29 +127,18 @@
                                                 <ul style="list-style-type: circle">
                                                     @if ($single_role->permissions)
                                                         @foreach ($single_role->permissions as $single_permission)
-                                                            <li x-data="{ modelOpen: false }" class="flex items-center gap-2">
+                                                            <li class="flex items-center gap-2">
                                                                 {{ $single_permission->name }}
-                                                                @if (sizeof($single_role->permissions) > 1)
-                                                                    <svg @click="modelOpen =!modelOpen"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="none" viewBox="0 0 24 24"
-                                                                        stroke-width="1.5" stroke="currentColor"
-                                                                        class="size-5 text-red-600 cursor-pointer">
-                                                                        <path stroke-linecap="round"
-                                                                            stroke-linejoin="round"
-                                                                            d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                                    </svg>
-                                                                    </svg>
-                                                                    <x-DeleteModal :role='$single_role->id'
-                                                                        :permission='$single_permission->id'></x-DeleteModal>
-                                                                @endif
                                                             </li>
                                                         @endforeach
                                                     @endif
                                                 </ul>
                                             </td>
 
-                                            <td
+
+                                            {{-- CANCELED --}}
+
+                                            {{-- <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
                                                 <ul style="list-style-type: circle">
                                                     @if ($single_role->users)
@@ -164,23 +158,34 @@
                                                                                 d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                                         </svg>
                                                                         </svg>
-                                                                        <x-DeleteModal :permission='$single_permission->id'
-                                                                            :user='$single_user->id'></x-DeleteModal>
+                                                                     
                                                                     @endif
                                                                 </li>
                                                             @endforeach
                                                         @endforeach
                                                     @endif
                                                 </ul>
-                                            </td>
+                                            </td> --}}
 
 
                                             <td
                                                 class="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                                                 {{ $single_role->created_at->diffForHumans() }}</td>
 
-                                            <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
 
+                                            <td x-data="{ modelOpen: false }"
+                                                class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                                {{$single_role->id}}
+                                                <button
+                                                    wire:click.prevent="OpenEditRoleModal({{$single_role->id}} , {{$single_role->permissions}})"
+                                                    type="button"
+                                                    class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">Edit</button>
+
+                                                <x-dashboard.roles.edit-role :role_id='$single_role->id' :permissions='$single_role->permissions'
+                                                    name="editModal-{{ $single_role->id }}"></x-dashboard.roles.edit-role>
+                                            </td>
+
+                                            <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                                 <button type="button"
                                                     class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">Delete</button>
                                             </td>
@@ -203,3 +208,5 @@
     </div>
 
 </div>
+{{-- <x-DeleteModal :permission='$single_permission->id'
+    :user='$single_user->id'></x-DeleteModal> --}}

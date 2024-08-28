@@ -9,8 +9,8 @@ class SubjectController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:Create Subject|Manage Subjects')->only(['create', 'store']);
-        $this->middleware('permission:Manage Subjects')->only(['index', 'edit', 'show', 'delete']);
+        $this->middleware('role_or_permission:administrator|Create Subject|Manage Subjects')->only(['create', 'store']);
+        $this->middleware('role_or_permission:administrator|Manage Subjects')->only(['index', 'edit', 'show', 'delete']);
     }
     public function index()
     {

@@ -42,9 +42,12 @@ Route::group(
             return Route::post('/livewire/update', $handle);
         });
 
+        
         //  Dashboard Routes
         Route::get('/', [dashboardController::class, 'index'])->name('dashboard');
 
+        Route::get('test', [dashboardController::class, 'viewTest']);
+        Route::post('store/test', [dashboardController::class, 'testArea']);
 
         Route::prefix('/portal/student')->middleware(['auth:sanctum', 'role:student', 'verified'])->group(function () {
             // Dashbaord For the studens
