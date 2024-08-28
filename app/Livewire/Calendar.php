@@ -365,10 +365,6 @@ class Calendar extends Component
         $this->events = json_encode($events);
 
 
-        $textEditor = TextEditorTest::get();
-        return view('livewire.calendar', [
-            'arrayData' => $this->arrayData,
-            'textEditor' => $textEditor
-        ]);
+        return view('livewire.calendar');
     }
 }
