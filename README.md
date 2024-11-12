@@ -2,6 +2,8 @@
 
 
 # Learning Management System
+This project has been done using Laravel, Livewire, AlpineJs, and Javascript
+
 
 Since the website is not live, I will provide screenshots of the project along with a summary of the features that have been completed.
 
