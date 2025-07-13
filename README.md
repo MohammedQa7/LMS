@@ -1,5 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
+![Thubmnail](https://github.com/user-attachments/assets/ab550c7d-87e3-44c5-bc0c-6d00e6a47f9e)
 
 # Learning Management System
 This project has been done using Laravel, Livewire, AlpineJs, and Javascript
@@ -26,6 +25,7 @@ Since the website is not live, I will provide screenshots of the project along w
 * Student Promotion and Demotion
 
 ## Pictures
+
 
 
 
